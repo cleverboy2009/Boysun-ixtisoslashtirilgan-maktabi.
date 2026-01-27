@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bog'lanish - Boysun Ixtisoslashtirilgan Maktabi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-info-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-color), #5E5CE6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 20px -5px rgba(10, 132, 255, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.7);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="blob-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Boysun <span>IM</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Bosh Sahifa</a></li>
+                    <li><a href="about.html" class="nav-link">Biz Haqimizda</a></li>
+                    <li><a href="teachers.html" class="nav-link">O'qituvchilar</a></li>
+                    <li><a href="contact.html" class="nav-link active">Bog'lanish</a></li>
+                    <li><a href="contact.html" class="btn btn-primary">Qabulga Yozilish</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" aria-label="Toggle Theme">
+                <i class="fas fa-sun"></i>
+            </button>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero" style="min-height: 50vh; height: auto; padding-top: 120px; clip-path: none;">
+        <div class="container hero-content" style="text-align: center; margin: 0 auto; padding: 0;">
+            <h1 style="font-size: 3.5rem;">Biz Bilan Bog'laning</h1>
+            <p style="margin: 0 auto;">Savollaringiz bormi? Bizga yozing yoki qo'ng'iroq qiling.</p>
+        </div>
+    </div>
+
+    <section class="features" style="padding-top: 0; margin-top: -3rem;">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="glass-card" style="padding: 2rem;">
+                    <h3 style="margin-bottom: 2rem;">Aloqa Ma'lumotlari</h3>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Manzil</h4>
+                            <p>Surxondaryo viloyati, Boysun sh., Mustaqillik mahallasi</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <h4>Telefon</h4>
+                            <p>+998 91 969 23 63</p>
+                            <p></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>odilovdilmurod020@gmail.com</p>
+                            <p></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <h4>Ish vaqti</h4>
+                            <p>Dushanba - Shanba: 08:00 - 17:00</p>
+                            <p>Yakshanba: Dam olish</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="glass-card" style="padding: 2.5rem;">
+                    <h3 style="margin-bottom: 2rem;">Xabar Yuborish "Xurmatli foydalanuvchi hozirda saytimiz toliq
+                        ishlamayotganligi tufayli xabar yubora olmaysiz faqat eamilga xabar yozishingiz yoki telefon
+                        raqamimizga qong'iroq qilib bog'lanishingiz mumkin"</h3>
+                    <form action="#">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label for="name">Ismingiz</label>
+                                <input type="text" id="name" class="form-control" placeholder="Ismingizni kiriting">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Telefon raqamingiz</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="+998 __ ___ __ __">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Mavzu</label>
+                            <input type="text" id="subject" class="form-control" placeholder="Murojaat sababi">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Xabar</label>
+                            <textarea id="message" rows="5" class="form-control"
+                                placeholder="Xabaringizni yozing..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Yuborish</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Map (Image Placeholder) -->
+            <div class="glass-card" style="padding: 1rem; height: 400px; overflow: hidden;">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12097.433213460943!2d67.200000!3d38.200000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f4d0d0000000000%3A0x0!2sBoysun%2C%20Surxondaryo%20Region!5e0!3m2!1sen!2s!4v1675245645123"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo" style="margin-bottom: 1rem; display: inline-flex;">
+                        <i class="fas fa-graduation-cap"></i>
+                        Boysun <span>IM</span>
+                    </a>
+                </div>
+                <div class="footer-col" style="text-align: right;">
+                    <div class="social-links" style="justify-content: flex-end;">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Boysun tuman ixtisoslashtirilgan maktabi. Barcha huquqlar himoyalangan.</p>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Boysun IM All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
