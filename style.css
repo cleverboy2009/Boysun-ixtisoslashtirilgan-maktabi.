@@ -79,6 +79,23 @@ body.light-mode {
     --header-border: rgba(255, 255, 255, 0.4);
 }
 
+/* Reduced Transparency / Performance Mode */
+body.static-mode {
+    --glass-bg: rgba(10, 10, 20, 0.95);
+    /* Nearly solid dark */
+    --backdrop-filter: none;
+    /* efficient */
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --glass-shine: none;
+    /* Remove shine */
+}
+
+body.static-mode.light-mode {
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    /* Nearly solid light */
+    --backdrop-filter: none;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -473,6 +490,31 @@ img {
     background: var(--accent-color);
     color: var(--white);
     transform: rotate(15deg) scale(1.1);
+}
+
+/* 3D Toggle Button */
+.three-d-toggle {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin-left: 0.5rem;
+    /* Closer to theme toggle */
+    width: 44px;
+    height: 44px;
+}
+
+.three-d-toggle:hover {
+    background: var(--accent-color);
+    color: var(--white);
+    transform: scale(1.1);
 }
 
 /* Hero Section */

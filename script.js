@@ -62,8 +62,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 3D Tilt Interaction ---
     const cards = document.querySelectorAll('.glass-card, .menu-card, .btn');
 
+    // 3D Toggle Logic
+    const threeDToggle = document.querySelector('.three-d-toggle');
+    let is3DEnabled = localStorage.getItem('is3DEnabled') !== 'false'; // Default to true
+
+    function update3DIcon() {
+        if (!threeDToggle) return;
+        const icon = threeDToggle.querySelector('i');
+        if (!icon) return;
+
+        if (is3DEnabled) {
+            icon.classList.remove('fa-cube');
+            icon.classList.add('fa-cube');
+            threeDToggle.style.opacity = '1';
+            threeDToggle.setAttribute('aria-label', 'Disable 3D Effects');
+            document.body.classList.remove('static-mode');
+        } else {
+            icon.classList.remove('fa-cube');
+            icon.classList.add('fa-ban');
+            threeDToggle.style.opacity = '0.7';
+            threeDToggle.setAttribute('aria-label', 'Enable 3D Effects');
+            document.body.classList.add('static-mode');
+        }
+    }
+
+    if (threeDToggle) {
+        update3DIcon();
+        threeDToggle.addEventListener('click', () => {
+            is3DEnabled = !is3DEnabled;
+            localStorage.setItem('is3DEnabled', is3DEnabled);
+            update3DIcon();
+
+            // Reset if disabled
+            if (!is3DEnabled) {
+                cards.forEach(card => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                });
+            }
+        });
+    }
+
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
+            if (!is3DEnabled) return;
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
