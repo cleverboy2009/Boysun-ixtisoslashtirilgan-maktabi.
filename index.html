@@ -45,6 +45,9 @@
                 </ul>
             </nav>
 
+            <button class="admin-access-btn" aria-label="Admin Login">
+                <i class="fas fa-shield-alt"></i>
+            </button>
             <button class="theme-toggle" aria-label="Toggle Theme">
                 <i class="fas fa-sun"></i>
             </button>
@@ -115,76 +118,45 @@
                 <p>Maktabimiz hayotidagi eng muhim voqealar va yangiliklar bilan tanishing.</p>
             </div>
 
-            <div class="news-grid">
-                <!-- News Item 1 -->
+            <div class="news-grid" id="main-news-container">
+                <!-- Static placeholders (will be replaced by dynamic content) -->
                 <div class="news-card glass-card">
                     <div class="news-image">
-                        <img src="image.png" alt="Tadbir">
+                        <img src="yigilish.png" alt="News">
                     </div>
                     <div class="news-content">
-                        <span class="news-date">19 Yanvar, 2026</span>
-                        <h3>BIZNING FAXRIMIZ</h3>
-                        <h6>
-
-                            Bizning o'quvchilarimiz ingliz tili fanidan bir qator sertifikatlarni qo'lga kiritishdi.
-                            <br>
-
-
-                            ✨8- sinf o‘quvchilari <br>
-                            ✔️Norova Oʻgʻiloy B2 <br>
-                            ✔️Amonov Umrbek B2 <br>
-
-                            ✨10- sinf o‘quvchisi <br>
-                            ✔️Hamroyev Ruslan B2 <br>
-
-                            ✨11- sinf o‘quvchisi <br>
-                            ✔️Temirov Ramziddin B2
-
-                        </h6>
-                        <a href="#" class="read-more">Batafsil <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <!-- News Item 2 -->
-                <div class="news-card glass-card">
-                    <div class="news-image">
-                        <img src="yigilish.png" alt="Musobaqa">
-                    </div>
-                    <div class="news-content">
-                        <span class="news-date">19 Yanvar, 2026</span>
-                        <h3>“OLIY MAJLIS VA O'ZBEKISTON XALQIGA MUROJAATNOMA”</h3>
-                        <h6>
-                            Ixtisoslashtirilgan ta’lim muassasalari agentligi tizimidagi Boysun tuman
-                            ixtisoslashtirilgan maktabida pedagog va ishchi xodimlarga Oʻzbekiston Respublikasi
-                            Prezidenti Shavkat Miromonovich Mirziyoyevning "Oliy Majlis va Oʻzbekiston xalqiga
-                            murojaatnomasi"da belgilangan vazifalar to'g'risida taqdimotlar asosida ma'lumotlar berildi
-                        </h6>
-                        <a href="#" class="read-more">Batafsil <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <!-- News Item 3 -->
-                <div class="news-card glass-card">
-                    <div class="news-image">
-                        <img src="manaviyat soati.png" alt="Olimpiada">
-                    </div>
-                    <div class="news-content">
-                        <span class="news-date">15 Yanvar, 2026</span>
-                        <h3>MAʼNAVIYAT, AXLOQ VA MEHR- OQIBAT</h3>
-                        <h6>
-                            Ixtisoslashtirilgan ta’lim muassasalar agentligi tizimidagi Boysun tuman
-                            ixtisoslashtirilgan maktabida 2026-yil 19-yanvar kuni O’zbekiston Respublikasi Maktabgacha
-                            vа mаktab ta’limi vazirining 2025-yil 25-avgustdagi "Maktabgacha va umumiу о’rtа ta’lim
-                            tashkilotlarida ma’naviy-ma’rifiy ishlar samaradorligini оshirsh to’g’risida" 308-sоn
-                            buyrug’i hamda O’zbekiston Respublikasi Maktabgacha vа mаktab ta’limi vazirligi huzuridagi
-                            Ixtisoslashtirilgan ta'lim muassasalari agentligining 2025 yil 29-avgustdagi
-                            01-17-2232-sonli xati ijrosini taminlash maqsadida  barcha sinf larda "Kelajak soati"
-                            tashkil etildi.
-                        </h6>
-                        <a href="#" class="read-more">Batafsil <i class="fas fa-arrow-right"></i></a>
+                        <span class="news-date">Yuklanmoqda...</span>
+                        <h3>Yangiliklar yuklanmoqda...</h3>
                     </div>
                 </div>
             </div>
+
+            <script>
+                // Dynamic News Loading for Index Page
+                async function loadHomeNews() {
+                    const container = document.getElementById('main-news-container');
+                    try {
+                        const res = await fetch('/api/news');
+                        const news = await res.json();
+                        if (news && news.length > 0) {
+                            container.innerHTML = news.map(item => `
+                                <div class="news-card glass-card">
+                                    <div class="news-image">
+                                        <img src="${item.image || 'yigilish.png'}" alt="News">
+                                    </div>
+                                    <div class="news-content">
+                                        <span class="news-date">${item.date}</span>
+                                        <h3>${item.title}</h3>
+                                        <h6>${item.content.substring(0, 150)}...</h6>
+                                        <a href="#" class="read-more">Batafsil <i class="fas fa-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            `).join('');
+                        }
+                    } catch (e) { console.log('News loading failed', e); }
+                }
+                document.addEventListener('DOMContentLoaded', loadHomeNews);
+            </script>
         </div>
     </section>
 
@@ -251,7 +223,27 @@
         </div>
     </footer>
 
+    <script src="liquid-effects.js"></script>
     <script src="script.js"></script>
+    <script>
+        async function loadSiteSettings() {
+            try {
+                const res = await fetch('/api/settings');
+                const data = await res.json();
+                if (data.site_name) {
+                    document.querySelectorAll('.logo span, .logo').forEach(el => {
+                        if (el.classList.contains('logo')) {
+                            // Update logo text if needed, maintaining the icon
+                        }
+                    });
+                    // For now, let's update specific placeholders if we add them, 
+                    // or just log that it's working.
+                    console.log("Site settings loaded:", data);
+                }
+            } catch (e) { }
+        }
+        loadSiteSettings();
+    </script>
 </body>
 
 </html>

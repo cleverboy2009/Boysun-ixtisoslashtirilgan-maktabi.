@@ -34,6 +34,9 @@
                     <li><a href="contact.html" class="nav-link">Bog'lanish</a></li>
                 </ul>
             </nav>
+            <button class="admin-access-btn" aria-label="Admin Login">
+                <i class="fas fa-shield-alt"></i>
+            </button>
             <button class="theme-toggle" aria-label="Toggle Theme">
                 <i class="fas fa-sun"></i>
             </button>
@@ -53,79 +56,116 @@
         </div>
     </div>
 
-    <section class="features" style="padding-top: 0; margin-top: -3rem;">
+    <section class="teachers-section" style="padding: 50px 0;">
         <div class="container">
-            <div class="news-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-
-                <!-- Teacher 1 -->
-                <div class="news-card glass-card">
-                    <div class="news-image" style="height: 250px;">
-                        <img src="" alt="Teacher">
-                    </div>
-                    <div class="news-content" style="text-align: center;">
-                        <h3 style="margin-bottom: 0.5rem;">Odilova Sadoqat</h3>
-                        <p style="color: var(--accent-color); font-weight: 600;">Ona tili va Adabiyot</p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">"Adabiyot - bu hayot
-                            ko'zgusi. Har bir darsimda o'quvchilarni shu ko'zguga boqishga o'rgataman."</p>
-                    </div>
-                </div>
-
-                <!-- Teacher 2 -->
-                <div class="news-card glass-card">
-                    <div class="news-image" style="height: 250px;">
-                        <img src="pardayev.png" alt="Teacher">
-                    </div>
-                    <div class="news-content" style="text-align: center;">
-                        <h3 style="margin-bottom: 0.5rem;">Pardayev Ja'far</h3>
-                        <p style="color: var(--accent-color); font-weight: 600;">Matematika o'qituvchisi</p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">"Aniq fanlar
-                            tafakkurni charxlaydi. Biz bilan matematikani oson o'rganing."</p>
-                    </div>
-                </div>
-
-                <!-- Teacher 3 -->
-                <div class="news-card glass-card">
-                    <div class="news-image" style="height: 250px;">
-                        <img src="ziyod ustoz.png" alt="Teacher">
-                    </div>
-                    <div class="news-content" style="text-align: center;">
-                        <h3 style="margin-bottom: 0.5rem;">Raxmonov Ziyodbek </h3>
-                        <p style="color: var(--accent-color); font-weight: 600;">Rus tili</p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">"Chet tili - bu
-                            dunyoga ochilgan deraza. ."</p>
-                    </div>
-                </div>
-
-                <!-- Teacher 4 -->
-                <div class="news-card glass-card">
-                    <div class="news-image" style="height: 250px;">
-                        <img src="" alt="Teacher">
-                    </div>
-                    <div class="news-content" style="text-align: center;">
-                        <h3 style="margin-bottom: 0.5rem;">Murodbek Shoymardonov</h3>
-                        <p style="color: var(--accent-color); font-weight: 600;">Jismoniy Tarbiya</p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">"Sog'lom tanda -
-                            sog'lom aql. Sport bilan muntazam shug'ullanishga chorlayman."</p>
-                    </div>
-                </div>
-                <!-- Teacher 5 -->
-                <div class="news-card glass-card">
-                    <div class="news-image" style="height: 250px;">
-                        <img src="Bo'riyev.png" alt="Teacher">
-                    </div>
-                    <div class="news-content" style="text-align: center;">
-                        <h3 style="margin-bottom: 0.5rem;">Bo'riyev Azizjon</h3>
-                        <p style="color: var(--accent-color); font-weight: 600;"> Tarbiya fani O'qitovchisi</p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">"Tarbiya — bu xalqning
-                            kelajagi,
-                            U yo‘qsiz millatning ertasi ham yo‘q."</p>
-                    </div>
-                </div>
-
-
+            <div id="teachers-grid" class="teachers-compact-grid">
+                <!-- Dynamic teachers load here -->
             </div>
         </div>
     </section>
+
+    <style>
+        .teachers-compact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem 0;
+        }
+
+        .teacher-profile-card {
+            position: relative;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .teacher-profile-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .teacher-avatar-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 1.5rem;
+            z-index: 1;
+        }
+
+        .teacher-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .avatar-liquid-ring {
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            z-index: -1;
+            opacity: 0.3;
+            animation: pulse-ring 3s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+        }
+
+        .teacher-name {
+            font-size: 1.4rem;
+            color: var(--white);
+            margin-bottom: 0.4rem;
+        }
+
+        .teacher-subject {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+        }
+    </style>
+
+    <script>
+        async function loadDynamicTeachers() {
+            const grid = document.getElementById('teachers-grid');
+            try {
+                const res = await fetch('/api/teachers');
+                const teachers = await res.json();
+                if (teachers && teachers.length > 0) {
+                    grid.innerHTML = teachers.map(t => `
+                        <div class="teacher-profile-card glass-card">
+                            <div class="teacher-avatar-wrapper">
+                                <div class="avatar-liquid-ring"></div>
+                                <img src="${t.image || 'default-avatar.png'}" alt="${t.name}" class="teacher-avatar">
+                            </div>
+                            <h3 class="teacher-name">${t.name}</h3>
+                            <p class="teacher-subject">${t.subject}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Hozircha o\'qituvchilar mavjud emas.</p>';
+                }
+            } catch (e) {
+                grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Ma\'lumotlarni yuklab bo\'lmadi.</p>';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadDynamicTeachers);
+    </script>
 
     <footer class="footer">
         <div class="container">
@@ -138,7 +178,6 @@
                     <p style="color: #94A3B8;">Yosh avlodga sifatli ta'lim va tarbiya berish bizning asosiy
                         maqsadimizdir.</p>
                 </div>
-                <!-- Links simplified for other pages -->
                 <div class="footer-col">
                     <h4>Tezkor Havolalar</h4>
                     <ul>
@@ -153,12 +192,9 @@
             <div class="copyright">
                 <p>&copy; 2026 Boysun tuman ixtisoslashtirilgan maktabi. Barcha huquqlar himoyalangan.</p>
             </div>
-            <div class="copyright">
-                <p>&copy; 2026 Boysun IM All rights reserved.</p>
-            </div>
-
         </div>
     </footer>
+    <script src="liquid-effects.js"></script>
     <script src="script.js"></script>
 </body>
 
