@@ -64,7 +64,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3D Toggle Logic
     const threeDToggle = document.querySelector('.three-d-toggle');
-    let is3DEnabled = localStorage.getItem('is3DEnabled') !== 'false'; // Default to true
+
+    // Detect mobile devices
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
+    // Auto-disable 3D on mobile if no preference saved
+    let is3DEnabled;
+    const savedPreference = localStorage.getItem('is3DEnabled');
+
+    if (savedPreference !== null) {
+        // User has a saved preference, use it
+        is3DEnabled = savedPreference !== 'false';
+    } else {
+        // No saved preference - disable 3D on mobile, enable on desktop
+        is3DEnabled = !isMobile;
+        localStorage.setItem('is3DEnabled', is3DEnabled);
+    }
 
     function update3DIcon() {
         if (!threeDToggle) return;

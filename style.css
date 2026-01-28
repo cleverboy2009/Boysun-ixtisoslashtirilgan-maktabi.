@@ -433,17 +433,19 @@ img {
 
 .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: 1.2rem;
     align-items: center;
 }
 
 .nav-link {
     font-weight: 500;
+    font-size: 0.95rem;
     color: var(--secondary-color);
     position: relative;
-    padding: 10px 20px;
+    padding: 8px 15px;
     border-radius: 30px;
     transition: all 0.3s var(--smooth-easing);
+    white-space: nowrap;
 }
 
 .nav-link:hover,
