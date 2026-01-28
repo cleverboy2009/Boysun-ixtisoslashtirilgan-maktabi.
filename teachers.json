@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Bo'riyev Azizjon",
+        "subject": "Tarbiya fani O'qitovchisi",
+        "image": "Bo'riyev.png"
+    },
+    {
+        "id": 2,
+        "name": "Xadicha Ramazonova",
+        "subject": "Maktab Direktori",
+        "image": "default-avatar.png"
+    },
+    {
+        "id": 3,
+        "name": "Majidov Barzu",
+        "subject": "Direktor O'rinbosari",
+        "image": "barzu.png"
+    },
+    {
+        "id": 4,
+        "name": "Odilov Dilmurod",
+        "subject": "Direktor O'rinbosari",
+        "image": "odilov.png"
+    },
+    {
+        "id": 5,
+        "name": "Pardayev Fazliddin",
+        "subject": "Matematika fani O'qituvchisi",
+        "image": "pardayev.png"
+    },
+    {
+        "id": 6,
+        "name": "Ziyodulla Ustoz",
+        "subject": "Tarix fani O'qituvchisi",
+        "image": "ziyod ustoz.png"
+    }
+]

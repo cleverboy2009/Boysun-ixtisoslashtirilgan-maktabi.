@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -59,7 +60,51 @@
     <section class="teachers-section" style="padding: 50px 0;">
         <div class="container">
             <div id="teachers-grid" class="teachers-compact-grid">
-                <!-- Dynamic teachers load here -->
+                <!-- Fallback Static Teachers (Original State) -->
+                <div class="teacher-profile-card glass-card">
+                    <div class="teacher-avatar-wrapper">
+                        <div class="avatar-liquid-ring"></div>
+                        <img src="Bo'riyev.png" alt="Bo'riyev Azizjon" class="teacher-avatar">
+                    </div>
+                    <h3 class="teacher-name">Bo'riyev Azizjon</h3>
+                    <p class="teacher-subject">Tarbiya fani O'qituvchisi</p>
+                </div>
+
+                <div class="teacher-profile-card glass-card">
+                    <div class="teacher-avatar-wrapper">
+                        <div class="avatar-liquid-ring"></div>
+                        <img src="odilov.png" alt="Odilov Dilmurod" class="teacher-avatar">
+                    </div>
+                    <h3 class="teacher-name">Odilov Dilmurod</h3>
+                    <p class="teacher-subject">Direktor O'rinbosari</p>
+                </div>
+
+                <div class="teacher-profile-card glass-card">
+                    <div class="teacher-avatar-wrapper">
+                        <div class="avatar-liquid-ring"></div>
+                        <img src="pardayev.png" alt="Pardayev Fazliddin" class="teacher-avatar">
+                    </div>
+                    <h3 class="teacher-name">Pardayev Jafar</h3>
+                    <p class="teacher-subject">Matematika O'qituvchisi</p>
+                </div>
+
+                <div class="teacher-profile-card glass-card">
+                    <div class="teacher-avatar-wrapper">
+                        <div class="avatar-liquid-ring"></div>
+                        <img src="barzu.png" alt="Majidov Barzu" class="teacher-avatar">
+                    </div>
+                    <h3 class="teacher-name">Majidov Barzu</h3>
+                    <p class="teacher-subject">Direktor O'rinbosari</p>
+                </div>
+
+                <div class="teacher-profile-card glass-card">
+                    <div class="teacher-avatar-wrapper">
+                        <div class="avatar-liquid-ring"></div>
+                        <img src="ziyod ustoz.png" alt="Ziyodulla Ustoz" class="teacher-avatar">
+                    </div>
+                    <h3 class="teacher-name">Ziyodbek Raxmonov</h3>
+                    <p class="teacher-subject">Rus tili O'qituvchisi</p>
+                </div>
             </div>
         </div>
     </section>
@@ -143,11 +188,12 @@
     <script>
         async function loadDynamicTeachers() {
             const grid = document.getElementById('teachers-grid');
+            if (!grid) return;
             try {
-                const res = await fetch('/api/teachers');
+                const res = await fetch('teachers.php');
                 const teachers = await res.json();
                 if (teachers && teachers.length > 0) {
-                    grid.innerHTML = teachers.map(t => `
+                    const dynamicHtml = teachers.map(t => `
                         <div class="teacher-profile-card glass-card">
                             <div class="teacher-avatar-wrapper">
                                 <div class="avatar-liquid-ring"></div>
@@ -157,11 +203,10 @@
                             <p class="teacher-subject">${t.subject}</p>
                         </div>
                     `).join('');
-                } else {
-                    grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Hozircha o\'qituvchilar mavjud emas.</p>';
+                    grid.insertAdjacentHTML('beforeend', dynamicHtml);
                 }
             } catch (e) {
-                grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Ma\'lumotlarni yuklab bo\'lmadi.</p>';
+                console.log('Static fallback being used.');
             }
         }
         document.addEventListener('DOMContentLoaded', loadDynamicTeachers);
@@ -194,6 +239,7 @@
             </div>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="liquid-effects.js"></script>
     <script src="script.js"></script>
 </body>
