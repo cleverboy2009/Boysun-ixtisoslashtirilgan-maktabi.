@@ -46,17 +46,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize all features
     initThemeToggle();
-    init3DToggle();
-    initLiquidMenu();
+    // init3DToggle(); // Removed for stability and per user request
+    initPerfToggle();
+    // initLiquidMenu(); // Disabled for stability
     initMobileMenu();
     initScrollEffects();
-    init3DCardEffects();
-    initBackgroundParallax();
+    // init3DCardEffects(); // Removed per user request
+    // initBackgroundParallax(); // Disabled for stability
     initAdminAuth();
 
     // Log current state
     logCurrentState();
 });
+
+// ============================================
+// PERFORMANCE MODE TOGGLE
+// ============================================
+
+function initPerfToggle() {
+    const perfToggle = document.querySelector('.perf-toggle');
+    const body = document.body;
+
+    if (!perfToggle) return;
+
+    const icon = perfToggle.querySelector('i');
+
+    // Detect mobile for auto-stability
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        window.innerWidth <= 768;
+
+    // Load saved preference or auto-enable on mobile
+    let isPerfMode;
+    const savedPreference = localStorage.getItem('isPerfMode');
+
+    if (savedPreference !== null) {
+        isPerfMode = savedPreference === 'true';
+    } else {
+        isPerfMode = isMobile; // Auto-enable on mobile
+        localStorage.setItem('isPerfMode', isPerfMode);
+    }
+
+    if (isPerfMode) {
+        body.classList.add('perf-mode');
+        if (icon) {
+            icon.classList.remove('fa-bolt');
+            icon.classList.add('fa-tachometer-alt');
+        }
+    }
+
+    perfToggle.addEventListener('click', () => {
+        const active = body.classList.toggle('perf-mode');
+        localStorage.setItem('isPerfMode', active);
+
+        if (icon) {
+            if (active) {
+                icon.classList.remove('fa-bolt');
+                icon.classList.add('fa-tachometer-alt');
+            } else {
+                icon.classList.remove('fa-tachometer-alt');
+                icon.classList.add('fa-bolt');
+            }
+
+            // Subtle rotation
+            icon.style.transform = 'rotate(360deg)';
+            setTimeout(() => icon.style.transform = '', 400);
+        }
+
+        createRippleEffect(perfToggle);
+    });
+
+    console.log('✅ Performance toggle initialized');
+}
 
 // ============================================
 // THEME TOGGLE (Light/Dark Mode)

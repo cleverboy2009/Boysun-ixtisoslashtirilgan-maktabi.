@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https:;">
     <title>Boysun Maktabi - Kelajak Sari Qadam</title>
     <meta name="description" content="Zamonaviy ta'lim va yuqori sifatli bilim beruvchi maktab.">
     <!-- Fonts -->
@@ -23,11 +25,7 @@
 <body>
 
     <!-- Liquid Background Blobs -->
-    <div class="blob-container">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
+
 
     <!-- Header -->
     <header class="header">
@@ -42,21 +40,25 @@
                     <li><a href="index.html" class="nav-link active">Bosh Sahifa</a></li>
                     <li><a href="about.html" class="nav-link">Biz Haqimizda</a></li>
                     <li><a href="teachers.html" class="nav-link">O'qituvchilar</a></li>
+                    <li><a href="achievements.html" class="nav-link">Yutuqlar</a></li>
                     <li><a href="admission.html" class="nav-link">Qabul</a></li>
                     <li><a href="contact.html" class="nav-link">Bog'lanish</a></li>
+                    <li><a href="updates.html" class="nav-link">Yangilanishlar</a></li>
                 </ul>
             </nav>
 
-            <button class="admin-access-btn" aria-label="Admin Login">
-                <i class="fas fa-shield-alt"></i>
-            </button>
-            <button class="theme-toggle" aria-label="Toggle Theme">
-                <i class="fas fa-sun"></i>
-            </button>
-            <button class="three-d-toggle" aria-label="Toggle 3D Effects">
-                <i class="fas fa-cube"></i>
-            </button>
+            <div class="header-actions">
+                <button class="admin-access-btn" aria-label="Admin Login">
+                    <i class="fas fa-shield-alt"></i>
+                </button>
+                <button class="theme-toggle" aria-label="Toggle Theme">
+                    <i class="fas fa-sun"></i>
+                </button>
 
+                <button class="perf-toggle" aria-label="Toggle Performance Mode">
+                    <i class="fas fa-bolt"></i>
+                </button>
+            </div>
             <div class="mobile-toggle">
                 <i class="fas fa-bars"></i>
             </div>
@@ -78,15 +80,7 @@
         </div>
     </section>
 
-    <div class="footer-col">
-        <h4>Tezkor Havolalar</h4>
-        <ul>
-            <li><a href="index.html">Bosh Sahifa</a></li>
-            <li><a href="about.html">Biz Haqimizda</a></li>
-            <li><a href="teachers.html">O'qituvchilar</a></li>
-            <li><a href="contact.html">Bog'lanish</a></li>
-        </ul>
-    </div>
+
 
 
     <!-- Features Section -->
@@ -235,16 +229,10 @@
                         <li><a href="index.html">Bosh Sahifa</a></li>
                         <li><a href="about.html">Biz Haqimizda</a></li>
                         <li><a href="teachers.html">O'qituvchilar</a></li>
+                        <li><a href="achievements.html">Yutuqlar</a></li>
+                        <li><a href="admission.html">Qabul</a></li>
                         <li><a href="contact.html">Bog'lanish</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Aloqa</h4>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> Surxondaryo viloyati Boysun Tumani</li>
-                        <li><i class="fas fa-phone"></i> +998 91 969 23 63</li>
-                        <li><i class="fas fa-envelope"></i>odilovdilmurod020@gmail.com </li>
+                        <li><a href="updates.html">Yangilanishlar</a></li>
                     </ul>
                 </div>
 
@@ -253,16 +241,13 @@
                     <div class="social-links">
                         <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-telegram"></i></a>
+                        <a href="https://t.me/ptmaboysun" class="social-icon"><i class="fab fa-telegram"></i></a>
                     </div>
                 </div>
             </div>
 
             <div class="copyright">
                 <p>&copy; 2026 Boysun Ixtisoslashtirilgan Maktabi. Barcha huquqlar himoyalangan.</p>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2026 Boysun IM. All rights reserved.</p>
             </div>
         </div>
     </footer>

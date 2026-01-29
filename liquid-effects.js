@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const rect = el.getBoundingClientRect();
             const x = e.clientX || rect.left + rect.width / 2;
             const y = e.clientY || rect.top + rect.height / 2;
-            liquidEngine.createRipple(x, y, 1.5);
+            window.iOS26LiquidEngineInstance.createRipple(x, y, 1.5);
         });
     });
 });
@@ -162,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // Export for external use
 window.iOS26Liquid = {
     createRipple: (x, y, intensity) => {
-        if (liquidEngine) {
-            liquidEngine.createRipple(x, y, intensity);
+        if (window.iOS26LiquidEngineInstance) {
+            window.iOS26LiquidEngineInstance.createRipple(x, y, intensity);
         }
     }
 };
