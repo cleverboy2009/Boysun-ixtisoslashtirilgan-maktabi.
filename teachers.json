@@ -1,38 +1,122 @@
 [
     {
         "id": 1,
+        "name": "Pardayev Jafar",
+        "subject": "Matematika fani O'qituvchisi",
+        "image": "pardayev.png"
+    },
+    {
+        "id": 2,
+        "name": "Asqarov Sherzod",
+        "subject": "Fizika fani O'qituvchisi",
+        "image": "asqarov.png"
+    },
+    {
+        "id": 3,
         "name": "Bo'riyev Azizjon",
         "subject": "Tarbiya fani O'qitovchisi",
         "image": "Bo'riyev.png"
     },
     {
-        "id": 2,
+        "id": 4,
         "name": "Xadicha Ramazonova",
         "subject": "Maktab Direktori",
         "image": "director.png"
     },
     {
-        "id": 3,
+        "id": 5,
         "name": "Majidov Barzu",
         "subject": "Direktor O'rinbosari",
         "image": "barzu.png"
     },
     {
-        "id": 4,
+        "id": 6,
         "name": "Odilov Dilmurod",
         "subject": "Direktor O'rinbosari",
         "image": "odilov.png"
     },
     {
-        "id": 5,
-        "name": "Pardayev Fazliddin",
-        "subject": "Matematika fani O'qituvchisi",
-        "image": "pardayev.png"
-    },
-    {
-        "id": 6,
+        "id": 7,
         "name": "Ziyodulla Ustoz",
         "subject": "Tarix fani O'qituvchisi",
         "image": "ziyod ustoz.png"
+    },
+    {
+        "id": 8,
+        "name": "Nurboyeva Dilnoza",
+        "subject": "Biologiya fani O'qituvchisi",
+        "image": "nurboyeva.png"
+    },
+    {
+        "id": 9,
+        "name": "Rashidov Sardor",
+        "subject": "Rus tili fani O'qituvchisi",
+        "image": "rashidov.png"
+    },
+    {
+        "id": 10,
+        "name": "Qarorova Sarviniso",
+        "subject": "Biologiya fani O'qituvchisi",
+        "image": "qarorova.png"
+    },
+    {
+        "id": 11,
+        "name": "Rashidova Go'zal",
+        "subject": "Rus tili fani O'qituvchisi",
+        "image": "rashidova_g.png"
+    },
+    {
+        "id": 12,
+        "name": "Roziqov Azamat",
+        "subject": "Informatika fani O'qituvchisi",
+        "image": "roziqov.png"
+    },
+    {
+        "id": 13,
+        "name": "Hamroyev G'iyos",
+        "subject": "Informatika fani O'qituvchisi",
+        "image": "hamroyev.png"
+    },
+    {
+        "id": 14,
+        "name": "Ismoilov Damir",
+        "subject": "Ingliz tili fani O'qituvchisi",
+        "image": "ismoilov.png"
+    },
+    {
+        "id": 15,
+        "name": "Mo'minov Firdavs",
+        "subject": "Tarix fani O'qituvchisi",
+        "image": "mominov.png"
+    },
+    {
+        "id": 16,
+        "name": "Boltayeva Gulandon",
+        "subject": "Ingliz tili fani O'qituvchisi",
+        "image": "boltayeva.png"
+    },
+    {
+        "id": 17,
+        "name": "Husanov Nizomiddin",
+        "subject": "Tarix fani O'qituvchisi",
+        "image": "husanov.png"
+    },
+    {
+        "id": 18,
+        "name": "Turdiyev Sardor",
+        "subject": "Geografiya fani O'qituvchisi",
+        "image": "turdiyev.png"
+    },
+    {
+        "id": 19,
+        "name": "Rajabova Mavluda",
+        "subject": "Tarix fani O'qituvchisi",
+        "image": "rajabova.png"
+    },
+    {
+        "id": 20,
+        "name": "Xursandov Zarif",
+        "subject": "Informatika fani O'qituvchisi",
+        "image": "xursandov.png"
     }
 ]

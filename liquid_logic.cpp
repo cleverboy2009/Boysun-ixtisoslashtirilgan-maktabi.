@@ -57,6 +57,20 @@ extern "C" {
         }
         return "";
     }
+
+    EMSCRIPTEN_KEEPALIVE
+    int check_security_level(const char* input) {
+        // Symbolic C++ Security Logic
+        // In a real WASM scenario, this could handle complex encryption
+        std::string s(input);
+        if (s.length() < 8) return 0; // Weak
+        bool has_upper = false, has_digit = false;
+        for (char c : s) {
+            if (isupper(c)) has_upper = true;
+            if (isdigit(c)) has_digit = true;
+        }
+        return (has_upper && has_digit) ? 2 : 1; // 2=Strong, 1=Medium
+    }
 }
 
 int main() {

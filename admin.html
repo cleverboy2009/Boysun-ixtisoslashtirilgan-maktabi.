@@ -288,16 +288,22 @@
             if (id === 'settings') loadSettings();
         }
 
-        ['news-image', 'teacher-image'].forEach(id => {
+        ['news-image', 'teacher-image', 'edit-image'].forEach(id => {
             document.getElementById(id).addEventListener('change', function (e) {
                 const file = e.target.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (ev) => {
-                        const targetPreview = id === 'news-image' ? 'image-preview' : 't-image-preview';
-                        if (id === 'news-image') currentImageData = ev.target.result;
-                        else currentTeacherImageData = ev.target.result;
-                        document.getElementById(targetPreview).innerHTML = `<img src="${ev.target.result}" class="img-fluid rounded mt-2">`;
+                        if (id === 'edit-image') {
+                            // Update a variable for edit image or reuse currentImageData if appropriate logic is set
+                            // But better to use a specific variable for edits to avoid conflict
+                            window.currentEditImageData = ev.target.result;
+                        } else {
+                            const targetPreview = id === 'news-image' ? 'image-preview' : 't-image-preview';
+                            if (id === 'news-image') currentImageData = ev.target.result;
+                            else currentTeacherImageData = ev.target.result;
+                            document.getElementById(targetPreview).innerHTML = `<img src="${ev.target.result}" class="img-fluid rounded mt-2">`;
+                        }
                     };
                     reader.readAsDataURL(file);
                 }
@@ -435,11 +441,21 @@
                 date: document.getElementById('edit-date').value,
                 content: document.getElementById('edit-content').value
             };
+
+            if (window.currentEditImageData) {
+                updateData.image = window.currentEditImageData;
+            }
+
             await fetch(`news.php?id=${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updateData)
             });
+
+            // cleanup
+            window.currentEditImageData = null;
+            document.getElementById('edit-image').value = '';
+
             loadNews();
             closeEditModal();
         });

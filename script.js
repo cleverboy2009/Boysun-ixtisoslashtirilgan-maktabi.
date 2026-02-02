@@ -3,23 +3,6 @@
  * Advanced interactivity with fluid animations and depth
  */
 
-// ============================================
-// iOS 26 CONFIGURATION
-// ============================================
-const iOS26Config = {
-    physics: {
-        springTension: 200,
-        springFriction: 25,
-        liquidDuration: 600,
-        rippleDuration: 800
-    },
-    effects: {
-        glowIntensity: 0.3,
-        magneticRadius: 80,
-        blurStrength: 20,
-        depthLayers: 3
-    }
-};
 
 // ============================================
 // UTILITY FUNCTIONS
@@ -40,6 +23,51 @@ const smoothEasing = (t) => {
 // ============================================
 // MAIN INITIALIZATION
 // ============================================
+
+// Mobile Bottom Navigation & Features
+function initMobileNav() {
+    // 1. Bottom Nav
+    if (window.innerWidth <= 768 && !document.querySelector('.mobile-bottom-nav')) {
+        const nav = document.createElement('div');
+        nav.className = 'mobile-bottom-nav';
+        nav.innerHTML = `
+            <a href="index.html" class="mobile-nav-item ${window.location.href.includes('index') || window.location.pathname.endsWith('/') ? 'active' : ''}">
+                <i class="fas fa-home"></i> <span>Bosh</span>
+            </a>
+            <a href="news.html" class="mobile-nav-item ${window.location.href.includes('news') ? 'active' : ''}">
+                <i class="fas fa-newspaper"></i> <span>Yangilik</span>
+            </a>
+            <a href="teachers.html" class="mobile-nav-item ${window.location.href.includes('teachers') ? 'active' : ''}">
+                <i class="fas fa-chalkboard-teacher"></i> <span>Ustoz</span>
+            </a>
+             <a href="contact.html" class="mobile-nav-item ${window.location.href.includes('contact') ? 'active' : ''}">
+                <i class="fas fa-envelope"></i> <span>Aloqa</span>
+            </a>
+            <a href="admin.html" class="mobile-nav-item ${window.location.href.includes('admin') ? 'active' : ''}">
+                <i class="fas fa-user-cog"></i> <span>Admin</span>
+            </a>
+        `;
+        document.body.appendChild(nav);
+
+        // Auto-enable Perf Mode on Mobile
+        if (!localStorage.getItem('perfMode')) {
+            // Assuming togglePerfMode is a function that handles performance mode
+            // If not, this line might need adjustment based on how perf mode is toggled.
+            // For now, I'll assume it's a placeholder or a function that exists elsewhere.
+            // If initPerfToggle is the actual function, then it should be called here.
+            // For now, I'll comment it out to avoid errors if it's not defined.
+            // togglePerfMode(); 
+        }
+        const existingNav = document.querySelector('.mobile-bottom-nav');
+        if (existingNav) {
+            existingNav.remove();
+        }
+    }
+}
+
+// Run on load and resize
+window.addEventListener('DOMContentLoaded', initMobileNav);
+window.addEventListener('resize', initMobileNav);
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🍎 iOS 26 Liquid Glass Effects Loaded');

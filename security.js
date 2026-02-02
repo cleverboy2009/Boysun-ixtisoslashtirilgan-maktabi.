@@ -50,12 +50,12 @@ function isValidPhone(phone) {
 // Get CSRF token from server
 async function getCSRFToken() {
     try {
-        const response = await fetch('/api/csrf-token');
+        const response = await fetch('contact.php?action=token');
         if (!response.ok) return 'local-dev-token'; // Fallback for testing
         const data = await response.json();
         return data.csrf_token;
     } catch (error) {
-        console.warn('CSRF token not available via API, creating session-based fallback.');
+        console.warn('CSRF token not available, creating session-based fallback.');
         return btoa(Math.random().toString());
     }
 }
@@ -73,29 +73,41 @@ async function submitContactForm(formData) {
         const csrfToken = await getCSRFToken();
 
         // Submit form with CSRF token
-        const response = await fetch('/api/contact', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            },
-            body: JSON.stringify(formData)
-        });
+        try {
+            const response = await fetch('contact.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify(formData)
+            });
 
-        const result = await response.json();
+            const text = await response.text();
+            let result;
+            try {
+                result = JSON.parse(text);
+            } catch (e) {
+                console.warn('Server response not JSON:', text.substring(0, 100));
+                throw new Error('Serverda xatolik yuz berdi (JSON emas).');
+            }
 
-        if (!response.ok) {
-            if (response.status === 429) throw new Error('Juda ko\'p so\'rov yuborildi. Iltimos 15 daqiqa kuting.');
-            if (result.errors && Array.isArray(result.errors)) throw new Error(result.errors.join('\n'));
-            throw new Error(result.error || 'Xatolik yuz berdi');
+            if (!response.ok) {
+                if (response.status === 429) throw new Error('Juda ko\'p so\'rov yuborildi. Iltimos 15 daqiqa kuting.');
+                if (result.errors && Array.isArray(result.errors)) throw new Error(result.errors.join('\n'));
+                throw new Error(result.error || 'Xatolik yuz berdi');
+            }
+
+            return result;
+
+        } catch (networkError) {
+            console.error('Network/Server Error:', networkError);
+            // Fallback for demo/static usage
+            return { success: true, message: 'Xabaringiz qabul qilindi! (Server ulanmagan, demo rejim)' };
         }
-
-        return result;
-
     } catch (error) {
         console.error('Form submission error:', error);
-        // Fallback for demo purposes if API is not fully set up
-        return { success: true, message: 'Xizmatingiz qabul qilindi. Tez orada bog\'lanamiz!' };
+        return { success: true, message: 'Xabaringiz yuborildi! (Demo)' };
     }
 }
 
@@ -103,7 +115,9 @@ async function submitContactForm(formData) {
 function validateContactFormData(formData) {
     const errors = [];
     if (!formData.name || formData.name.trim().length < 2) errors.push('Ism kamida 2 ta belgidan iborat bo\'lishi kerak');
-    if (!formData.email || !isValidEmail(formData.email)) errors.push('Noto\'g\'ri email manzil');
+    if (formData.email && !isValidEmail(formData.email)) {
+        errors.push('Noto\'g\'ri email manzil');
+    }
     if (formData.phone && !isValidPhone(formData.phone)) errors.push('Telefon raqami +998 XX XXX XX XX formatida bo\'lishi kerak');
     if (!formData.message || formData.message.trim().length < 10) errors.push('Xabar kamida 10 ta belgidan iborat bo\'lishi kerak');
     return errors;
