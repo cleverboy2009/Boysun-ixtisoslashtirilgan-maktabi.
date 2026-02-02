@@ -118,5 +118,17 @@
         "name": "Xursandov Zarif",
         "subject": "Informatika fani O'qituvchisi",
         "image": "xursandov.png"
+    },
+    {
+        "id": 21,
+        "name": "Kenjaboyev Xudoyberdi",
+        "subject": "Ingliz tili fani O'qituvchisi",
+        "image": "kenjaboyev.png"
+    },
+    {
+        "id": 22,
+        "name": "Qudratov Baxtiyor",
+        "subject": "Matematika fani O'qituvchisi",
+        "image": "qudratov.png"
     }
 ]
