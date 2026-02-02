@@ -88,6 +88,63 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================
+// MOBILE HAMBURGER MENU
+// ============================================
+
+function initMobileMenu() {
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (!mobileToggle || !navLinks) return;
+
+    // Toggle menu on click
+    mobileToggle.addEventListener('click', () => {
+        const isActive = navLinks.classList.toggle('active');
+        mobileToggle.classList.toggle('active');
+
+        // Animate hamburger icon
+        const icon = mobileToggle.querySelector('i');
+        if (isActive) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = isActive ? 'hidden' : '';
+    });
+
+    // Close menu when clicking on a link
+    const links = navLinks.querySelectorAll('.nav-link');
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            mobileToggle.classList.remove('active');
+            const icon = mobileToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+            document.body.style.overflow = '';
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !mobileToggle.contains(e.target)) {
+            navLinks.classList.remove('active');
+            mobileToggle.classList.remove('active');
+            const icon = mobileToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+            document.body.style.overflow = '';
+        }
+    });
+
+    console.log('✅ Mobile menu initialized');
+}
+
+// ============================================
 // PERFORMANCE MODE TOGGLE
 // ============================================
 

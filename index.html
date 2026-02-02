@@ -138,7 +138,8 @@
                         <h3>Maktabda ota-onalar yig'ilishi</h3>
                         <h6>Bugun maktabimizda ota-onalar yig'ilishi bo'lib o'tdi. Yig'ilishda o'quvchilarning
                             odob-axloqi muhokama qilindi.</h6>
-                        <a href="#" class="read-more">Batafsil <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://t.me/ptmaboysun" target="_blank" class="read-more">Batafsil <i
+                                class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -151,7 +152,8 @@
                         <h3>Ma'naviyat soati tashkil etildi</h3>
                         <h6>O'quvchilarning dunyoqarashini va vatanparvarlik hissini oshirish maqsadida ma'naviyat soati
                             tashkil etildi.</h6>
-                        <a href="#" class="read-more">Batafsil <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://t.me/ptmaboysun" target="_blank" class="read-more">Batafsil <i
+                                class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -164,20 +166,42 @@
                         <h3>Maktabimiz tarixi va yutuqlari</h3>
                         <h6>Boysun tuman ixtisoslashtirilgan maktabi o'zining ko'p yillik tarixi davomida ko'plab
                             yutuqlarga erishgan.</h6>
-                        <a href="#" class="read-more">Batafsil <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://t.me/ptmaboysun" target="_blank" class="read-more">Batafsil <i
+                                class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-            </div>
+                <div class="news-grid" id="main-news-container">
+                    <!-- Fallback Static News (Original State) -->
+                    <div class="news-card glass-card">
+                        <div class="news-image">
+                            <img src="zukko_kitobxon.jpg" alt="ZUKKO KITOBXON ">
+                        </div>
+                        <div class="news-content">
+                            <span class="news-date">28.01.2024</span>
+                            <h3>✅Kutubxona mudirasi: O.Bo‘riyeva </h3>
+                            <h6>🏢 Ixtisoslashtirilgan taʼlim muassasalari agentligi tizimidagi Boysun tuman
+                                ixtisoslashtirilgan maktabi kutubxonasida 5-sinf  oʻquvchilari bilan mustaqil o‘qigan
+                                badiiy asarlari bo‘yicha "Zukko kitobxon" tanlovi o‘tkazildi.<br>
 
-            <script>
-                // Dynamic News Loading for Index Page
-                async function loadHomeNews() {
-                    const container = document.getElementById('main-news-container');
-                    try {
-                        const res = await fetch('news.php');
-                        const news = await res.json();
-                        if (news && news.length > 0) {
-                            const dynamicHtml = news.map(item => `
+                                🌍 Bizni ijtimoiy tarmoqlarda kuzating</h6>
+                            <a href="https://t.me/ptmaboysun" target="_blank" class="read-more">Batafsil <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    // Dynamic News Loading for Index Page
+                    async function loadHomeNews() {
+                        const container = document.getElementById('main-news-container');
+                        try {
+                            const res = await fetch('news.php');
+                            const news = await res.json();
+                            if (news && news.length > 0) {
+                                // Clear static fallback content
+                                container.innerHTML = '';
+
+                                const dynamicHtml = news.slice(0, 3).map(item => `
                                 <div class="news-card glass-card">
                                     <div class="news-image">
                                         <img src="${item.image || 'yigilish.png'}" alt="News">
@@ -186,17 +210,19 @@
                                         <span class="news-date">${item.date}</span>
                                         <h3>${item.title}</h3>
                                         <h6>${item.content.substring(0, 150)}...</h6>
-                                        <a href="#" class="read-more">Batafsil <i class="fas fa-arrow-right"></i></a>
+                                        <a href="https://t.me/ptmaboysun" target="_blank" class="read-more">Batafsil <i class="fas fa-arrow-right"></i></a>
                                     </div>
                                 </div>
                             `).join('');
-                            container.insertAdjacentHTML('beforeend', dynamicHtml);
+                                container.innerHTML = dynamicHtml;
+                            }
+                        } catch (e) {
+                            console.log('News loading failed, using static fallback', e);
                         }
-                    } catch (e) { console.log('News loading failed', e); }
-                }
-                document.addEventListener('DOMContentLoaded', loadHomeNews);
-            </script>
-        </div>
+                    }
+                    document.addEventListener('DOMContentLoaded', loadHomeNews);
+                </script>
+            </div>
     </section>
 
     <!-- CTA Section -->

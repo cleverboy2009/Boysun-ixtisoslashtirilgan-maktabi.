@@ -7,7 +7,7 @@ header("X-XSS-Protection: 1; mode=block");
 header("X-Content-Type-Options: nosniff");
 header("X-Frame-Options: SAMEORIGIN");
 header("Referrer-Policy: strict-origin-when-cross-origin");
-// header("Content-Security-Policy: default-src 'self' ... "); // Can break inline scripts if not careful, keeping it simple for now or managed by HTML meta tags.
+header("Permissions-Policy: camera=(), microphone=(), geolocation=()");
 
 // 2. Session Security
 if (session_status() === PHP_SESSION_NONE) {
@@ -15,6 +15,14 @@ if (session_status() === PHP_SESSION_NONE) {
     ini_set('session.use_only_cookies', 1);
     ini_set('session.cookie_samesite', 'Strict');
     session_start();
+}
+
+// Regenerate session ID periodically
+if (!isset($_SESSION['last_regen'])) {
+    $_SESSION['last_regen'] = time();
+} elseif (time() - $_SESSION['last_regen'] > 300) {
+    session_regenerate_id(true);
+    $_SESSION['last_regen'] = time();
 }
 
 // 3. CSRF Protection
