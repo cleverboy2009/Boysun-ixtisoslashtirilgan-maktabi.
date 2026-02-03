@@ -24,40 +24,32 @@ const smoothEasing = (t) => {
 // MAIN INITIALIZATION
 // ============================================
 
-// Mobile Bottom Navigation & Features
+// Mobile Bottom Navigation
 function initMobileNav() {
-    // 1. Bottom Nav
-    if (window.innerWidth <= 768 && !document.querySelector('.mobile-bottom-nav')) {
-        const nav = document.createElement('div');
-        nav.className = 'mobile-bottom-nav';
-        nav.innerHTML = `
-            <a href="index.html" class="mobile-nav-item ${window.location.href.includes('index') || window.location.pathname.endsWith('/') ? 'active' : ''}">
-                <i class="fas fa-home"></i> <span>Bosh</span>
-            </a>
-            <a href="news.html" class="mobile-nav-item ${window.location.href.includes('news') ? 'active' : ''}">
-                <i class="fas fa-newspaper"></i> <span>Yangilik</span>
-            </a>
-            <a href="teachers.html" class="mobile-nav-item ${window.location.href.includes('teachers') ? 'active' : ''}">
-                <i class="fas fa-chalkboard-teacher"></i> <span>Ustoz</span>
-            </a>
-             <a href="contact.html" class="mobile-nav-item ${window.location.href.includes('contact') ? 'active' : ''}">
-                <i class="fas fa-envelope"></i> <span>Aloqa</span>
-            </a>
-            <a href="admin.html" class="mobile-nav-item ${window.location.href.includes('admin') ? 'active' : ''}">
-                <i class="fas fa-user-cog"></i> <span>Admin</span>
-            </a>
-        `;
-        document.body.appendChild(nav);
-
-        // Auto-enable Perf Mode on Mobile
-        if (!localStorage.getItem('perfMode')) {
-            // Assuming togglePerfMode is a function that handles performance mode
-            // If not, this line might need adjustment based on how perf mode is toggled.
-            // For now, I'll assume it's a placeholder or a function that exists elsewhere.
-            // If initPerfToggle is the actual function, then it should be called here.
-            // For now, I'll comment it out to avoid errors if it's not defined.
-            // togglePerfMode(); 
+    if (window.innerWidth <= 768) {
+        if (!document.querySelector('.mobile-bottom-nav')) {
+            const nav = document.createElement('div');
+            nav.className = 'mobile-bottom-nav';
+            nav.innerHTML = `
+                <a href="index.html" class="mobile-nav-item ${window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') ? 'active' : ''}">
+                    <i class="fas fa-home"></i> <span>Bosh</span>
+                </a>
+                <a href="updates.html" class="mobile-nav-item ${window.location.pathname.includes('updates') ? 'active' : ''}">
+                    <i class="fas fa-newspaper"></i> <span>Yangilik</span>
+                </a>
+                <a href="teachers.html" class="mobile-nav-item ${window.location.pathname.includes('teachers') ? 'active' : ''}">
+                    <i class="fas fa-chalkboard-teacher"></i> <span>Ustozlar</span>
+                </a>
+                <a href="admission.html" class="mobile-nav-item ${window.location.pathname.includes('admission') ? 'active' : ''}">
+                    <i class="fas fa-user-plus"></i> <span>Qabul</span>
+                </a>
+                <a href="contact.html" class="mobile-nav-item ${window.location.pathname.includes('contact') ? 'active' : ''}">
+                    <i class="fas fa-envelope"></i> <span>Bog'lanish</span>
+                </a>
+            `;
+            document.body.appendChild(nav);
         }
+    } else {
         const existingNav = document.querySelector('.mobile-bottom-nav');
         if (existingNav) {
             existingNav.remove();
@@ -494,34 +486,9 @@ function initLiquidMenu() {
 // MOBILE MENU
 // ============================================
 
-function initMobileMenu() {
-    const mobileToggle = document.querySelector('.mobile-toggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (!mobileToggle || !navLinks) return;
-
-    mobileToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-
-        // Animate hamburger icon
-        const icon = mobileToggle.querySelector('i');
-        if (navLinks.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-
-        // Rotate animation
-        icon.style.transform = 'rotate(180deg)';
-        setTimeout(() => {
-            icon.style.transform = 'rotate(0deg)';
-        }, 300);
-    });
-
-    console.log('✅ Mobile menu initialized');
-}
+// The initMobileMenu is already defined above, removing this duplicate simplicity version
+// to prevent conflicts and ensure consistent behavior with the overlay and body freezing.
+console.log('Using unified initMobileMenu with overlay');
 
 // ============================================
 // SCROLL EFFECTS
