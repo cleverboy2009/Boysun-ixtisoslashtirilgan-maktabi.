@@ -177,7 +177,8 @@ body.light-mode .header {
 
 /* Grid Styles */
 .class-square,
-.day-square {
+.day-square,
+.teacher-card {
     background: var(--bg-surface);
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -192,15 +193,29 @@ body.light-mode .header {
 }
 
 .class-square:hover,
-.day-square:hover {
+.day-square:hover,
+.teacher-card:hover {
     border-color: var(--primary);
     transform: translateY(-4px);
     box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
 }
 
+.teacher-card i {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.teacher-card p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
 .class-square h3,
-.day-square h3 {
-    font-size: 1.15rem;
+.day-square h3,
+.teacher-card h3 {
+    font-size: 1rem;
     font-weight: 700;
     margin: 0;
 }

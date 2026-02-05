@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ustozlar Ro'yxati | Boysun IM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="../favicon.png">
+</head>
+
+<body class="dark-mode">
+    <div class="background-effects">
+        <div class="blob"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <header class="header">
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <img src="../favicon.png" alt="Logo">
+                Boysun <span>IM</span>
+            </a>
+            <div class="header-actions">
+                <a href="index.html" class="theme-toggle" title="Bosh sahifa" style="text-decoration: none;">
+                    <i class="fas fa-home"></i>
+                </a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container py-4">
+
+            <!-- Step 1: Teacher List -->
+            <section id="teacher-selection-view">
+                <div class="hero-text text-center mb-5">
+                    <h1>Ustozlar Jadvali</h1>
+                    <p class="text-muted">Ustozni tanlang</p>
+                </div>
+                <div class="row g-3" id="teachers-list">
+                    <!-- Injected by JS -->
+                </div>
+            </section>
+
+            <!-- Step 2: Day Selection -->
+            <section id="teacher-day-view" class="d-none">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="app.showTeachers()"
+                        style="width:36px;height:36px;">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 class="h4 mb-0" id="selected-teacher-name">--</h2>
+                </div>
+                <div class="row g-3" id="teacher-days-grid">
+                    <!-- Dushanba, Seshanba... -->
+                </div>
+            </section>
+
+            <!-- Step 3: Hour Table -->
+            <section id="teacher-schedule-view" class="d-none">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="app.showTeacherDays()"
+                        style="width:36px;height:36px;">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div>
+                        <h2 class="h5 mb-0" id="display-teacher-day">--</h2>
+                        <p class="small text-muted mb-0" id="display-teacher-name-title">--</p>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle custom-table">
+                            <thead>
+                                <tr class="text-muted small">
+                                    <th width="70">SOAT</th>
+                                    <th>SINF</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teacher-hour-body">
+                                <!-- Hours 1-7 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <nav class="ios-mobile-nav d-md-none">
+        <a href="index.html" class="ios-nav-item"><i class="fas fa-home"></i><span>Bosh</span></a>
+        <a href="#" class="ios-nav-item active"><i class="fas fa-chalkboard-teacher"></i><span>Ustozlar</span></a>
+    </nav>
+
+    <script src="script_ustoz.js"></script>
+</body>
+
+</html>

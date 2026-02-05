@@ -10,13 +10,24 @@ const app = {
 
     init() {
         this.renderClasses();
+        this.renderTeachers();
         this.setupTheme();
         this.applySecurity();
         this.loadTheme();
     },
 
+    teachers: [
+        { name: "Pardayev Jafar", subject: "Matematika" },
+        { name: "Faxriddinov Nodir", subject: "Matematika" },
+        { name: "Choriyev Humoyiddin", subject: "Matematika" },
+        { name: "Aliyorova Feruza", subject: "Matematika" },
+        { name: "Qilichev Samandar", subject: "Matematika" },
+        { name: "Axmadov Nurbek", subject: "Matematika" }
+    ],
+
     renderClasses() {
         const grid = document.getElementById('classes-grid');
+        if (!grid) return;
         grid.innerHTML = this.classes.map(c => `
             <div class="col-6 col-md-3 col-lg-2">
                 <div class="class-square" onclick="app.selectClass('${c}')">
@@ -26,16 +37,36 @@ const app = {
         `).join('');
     },
 
+    renderTeachers() {
+        const grid = document.getElementById('teachers-grid');
+        if (!grid) return;
+        grid.innerHTML = this.teachers.map(t => `
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="teacher-card" onclick="app.selectTeacher('${t.name}')">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>${t.name}</h3>
+                    <p>${t.subject}</p>
+                </div>
+            </div>
+        `).join('');
+    },
+
+    selectTeacher(name) {
+        window.location.href = `teacher_jadval.html?name=${encodeURIComponent(name)}`;
+    },
+
     selectClass(className) {
         this.selectedClass = className;
         document.getElementById('selected-class-title').innerText = className;
         this.renderDays();
         this.transition('class-grid-container', 'day-grid-container');
-        document.getElementById('updates-section').classList.add('d-none');
+        document.getElementById('teachers-grid-container').classList.add('d-none');
+        document.getElementById('updates-section')?.classList.add('d-none');
     },
 
     renderDays() {
         const grid = document.getElementById('days-grid');
+        if (!grid) return;
         grid.innerHTML = this.days.map(d => `
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="day-square" onclick="app.selectDay('${d}')">
@@ -51,7 +82,8 @@ const app = {
 
     showClasses() {
         this.transition('day-grid-container', 'class-grid-container');
-        document.getElementById('updates-section').classList.remove('d-none');
+        document.getElementById('teachers-grid-container').classList.remove('d-none');
+        document.getElementById('updates-section')?.classList.remove('d-none');
     },
 
     transition(fromId, toId) {
