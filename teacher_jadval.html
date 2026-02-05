@@ -86,7 +86,7 @@
                 // 1. Try to fetch data from API (Real Server)
                 let currentData = [];
                 try {
-                    const response = await fetch('api.php/api/teachers');
+                    const response = await fetch('api.php/api/teachers?t=' + Date.now());
                     if (response.ok) {
                         const apiData = await response.json();
                         if (apiData && apiData.length > 0) {
