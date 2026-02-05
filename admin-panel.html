@@ -126,6 +126,10 @@
                 <button class="theme-toggle" onclick="saveAllChanges()" title="Saqlash">
                     <i class="fas fa-save"></i>
                 </button>
+                <button class="theme-toggle" onclick="downloadUpdatedFiles()"
+                    title="Vercel uchun fayllarni yuklab olish">
+                    <i class="fas fa-file-export"></i>
+                </button>
                 <button class="theme-toggle" id="theme-toggle" aria-label="Mavzu">
                     <i class="fas fa-sun"></i>
                 </button>
@@ -672,6 +676,40 @@
                     alert('Xatolik yuz berdi! Qaytadan urinib ko\'ring.');
                 }
             }
+        }
+
+        // Manual backup/export for Vercel or local static usage
+        function downloadUpdatedFiles() {
+            // 1. Download Timetable Data JS
+            const timetableContent = `// Timetable Data - Shared between all pages
+const TimetableData = {
+    subjects: ${JSON.stringify(app.subjects, null, 4)},
+    timetableData: ${JSON.stringify(app.timetableData, null, 4)}, // Save
+    save() { localStorage.setItem('timetableData', JSON.stringify(this.timetableData)); },
+    load() {
+        const saved = localStorage.getItem('timetableData');
+        if (saved) this.timetableData = JSON.parse(saved);
+    }
+};
+TimetableData.load();`;
+
+            downloadBlob(timetableContent, 'timetable-data.js');
+
+            // 2. Download Teacher Data JS
+            const teacherContent = `const teacherData = ${JSON.stringify(app.teacherData, null, 4)};`;
+            downloadBlob(teacherContent, 'teacher_data.js');
+
+            alert("Loyihangiz uchun 2 ta fayl tayyorlandi. Endi ularni eski fayllar o'rniga tashlab, Vercel/GitHub'ga yuklang.");
+        }
+
+        function downloadBlob(content, filename) {
+            const blob = new Blob([content], { type: 'application/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
         }
 
         async function checkBackendAvailable() {

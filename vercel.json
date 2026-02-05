@@ -1,0 +1,30 @@
+{
+    "version": 2,
+    "pages": [
+        {
+            "src": "index.html",
+            "dest": "index.html"
+        },
+        {
+            "src": "sinflar.html",
+            "dest": "sinflar.html"
+        },
+        {
+            "src": "ustozlar.html",
+            "dest": "ustozlar.html"
+        },
+        {
+            "src": "admin-login.html",
+            "dest": "admin-login.html"
+        },
+        {
+            "src": "admin-panel.html",
+            "dest": "admin-panel.html"
+        },
+        {
+            "src": "day.html",
+            "dest": "day.html"
+        }
+    ],
+    "cleanUrls": true
+}
