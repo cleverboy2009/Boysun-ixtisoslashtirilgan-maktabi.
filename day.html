@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kunlik Jadval | Boysun IM</title>
+    <title>Sinf Jadvali | Boysun IM</title>
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -20,6 +20,7 @@
         <div class="blob blob-2"></div>
     </div>
 
+    <!-- Header -->
     <header class="header">
         <div class="navbar">
             <a href="index.html" class="logo">
@@ -30,9 +31,6 @@
                 <a href="index.html" class="theme-toggle" title="Bosh sahifa" style="text-decoration: none;">
                     <i class="fas fa-home"></i>
                 </a>
-                <a href="updates.html" class="theme-toggle" title="Yangilanishlar" style="text-decoration: none;">
-                    <i class="fas fa-history"></i>
-                </a>
                 <button class="theme-toggle" id="theme-toggle">
                     <i class="fas fa-sun"></i>
                 </button>
@@ -40,111 +38,164 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="main-content">
         <div class="container py-4">
-            <div class="glass-card">
-                <div
-                    class="d-flex align-items-center justify-content-between mb-4 border-bottom border-opacity-10 pb-3">
-                    <div class="d-flex align-items-center gap-3">
-                        <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="window.history.back()"
-                            style="width:36px;height:36px;">
-                            <i class="fas fa-arrow-left"></i>
-                        </button>
-                        <div>
-                            <h2 id="display-class" class="h4 mb-0 fw-bold text-primary">--</h2>
-                            <p id="display-day" class="small text-muted mb-0 fw-bold">--</p>
-                        </div>
-                    </div>
-                </div>
+            <!-- Header Section -->
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <a href="sinflar.html" class="btn btn-sm btn-outline-primary rounded-circle"
+                    style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;text-decoration:none;">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h2 class="h4 mb-0" id="class-title">Yuklanmoqda...</h2>
+            </div>
 
-                <div class="table-responsive">
-                    <table class="table table-borderless align-middle custom-table">
-                        <thead>
-                            <tr class="text-muted small">
-                                <th width="70">SOAT</th>
-                                <th>FAN NOMI</th>
-                            </tr>
-                        </thead>
-                        <tbody id="day-timetable-body">
-                            <!-- Injected by script -->
-                        </tbody>
-                    </table>
-                </div>
+            <!-- Timetable Container -->
+            <div id="timetable-container" class="row g-3">
+                <!-- Injected by JS -->
             </div>
         </div>
     </main>
 
-    <!-- Mobile Nav -->
+    <!-- Navigation -->
     <nav class="ios-mobile-nav d-md-none">
-        <a href="index.html" class="ios-nav-item"><i class="fas fa-home"></i><span>Bosh</span></a>
-        <a href="https://t.me/ptmaboysun" class="ios-nav-item" target="_blank"><i
-                class="fab fa-telegram-plane"></i><span>Telegram</span></a>
-        <a href="#" class="ios-nav-item active"><i class="fas fa-calendar-alt"></i><span>Jadval</span></a>
+        <a href="index.html" class="ios-nav-item">
+            <i class="fas fa-home"></i>
+            <span>Bosh sahifa</span>
+        </a>
+        <a href="sinflar.html" class="ios-nav-item active">
+            <i class="fas fa-th"></i>
+            <span>Sinflar</span>
+        </a>
+        <a href="ustozlar.html" class="ios-nav-item">
+            <i class="fas fa-user-tie"></i>
+            <span>Ustozlar</span>
+        </a>
     </nav>
 
+    <!-- Global Scripts -->
+    <script src="timetable-data.js"></script>
     <script>
         const app = {
-            subjects: { "M": "Matematika", "S": "Science", "T": "Tarbiya", "R": "Rus tili", "G": "Geografiya", "A": "Algebra", "Ge": "Geometriya", "I": "Informatika", "J": "Jismoniy tarbiya", "K": "Kimyo", "C": "Chizmachilik", "B": "Biologiya", "Q": "ChQBT", "F": "Fizika", "O": "O'zbekiston tarixi", "Ct": "Chet tili", "Jh": "Jahon tarixi", "On": "Ona tili", "Ad": "Adabiyot", "Ar": "Tasviriy san'at", "Tr": "Tarix", "Ct/M": "Chet tili / Matematika", "M/R": "Matematika / Rus tili", "M/I": "Matematika / Informatika", "A/Ge": "Algebra / Geometriya", "M/Ct": "Matematika / Chet tili", "Ct/Mate": "Chet tili / Matematika", "S/Ct": "Science / Chet tili", "R/M": "Rus tili / Matematika", "I/M": "Informatika / Matematika" },
-            timetableData: {
-                "5-A": { "Dushanba": [["2", "Ct/M"], ["3", "S"], ["4", "Ct/M"], ["5", "M/R"], ["6", "T"]], "Seshanba": [["1", "M"], ["2", "Tr"], ["3", "On"], ["4", "M"], ["5", "Ar"]], "Chorshanba": [["1", "S"], ["2", "On"], ["3", "J"], ["4", "Ct/M"], ["5", "Ad"], ["6", "M/R"], ["7", "M/Ct"]], "Payshanba": [["1", "R/M"], ["2", "Tr"], ["3", "I"], ["4", "Ad"], ["5", "Ar"], ["6", "Ct/M"]], "Juma": [["1", "M/Ct"], ["2", "M/Ct"], ["3", "J"], ["4", "I"], ["5", "Ct/M"], ["6", "R/M"]] },
-                "5-B": { "Dushanba": [["2", "M"], ["3", "T"], ["4", "I"], ["5", "Ct"], ["6", "S"]], "Seshanba": [["1", "On"], ["2", "Ct"], ["3", "M"], ["4", "S"], ["5", "M"], ["6", "Ar"]], "Chorshanba": [["1", "Tr"], ["2", "M"], ["3", "On"], ["4", "Ct"], ["5", "J"], ["6", "Ad"]], "Payshanba": [["1", "M"], ["2", "Ct"], ["3", "R"], ["4", "I"], ["5", "M"], ["6", "Ar"], ["7", "Ar"]], "Juma": [["1", "I"], ["2", "Tr"], ["3", "Ct/M"], ["4", "R"], ["5", "J"], ["6", "Ad"]] },
-                "6-A": { "Dushanba": [["2", "R"], ["3", "M/I"], ["4", "J"], ["5", "J"], ["6", "M/I"]], "Seshanba": [["1", "S"], ["2", "Ct"], ["3", "M"], ["4", "Tr"], ["5", "S"], ["6", "Ct/Mate"]], "Chorshanba": [["1", "M/Ct"], ["2", "M/I"], ["3", "Ct/M"], ["4", "Ad"], ["5", "M/Ct"], ["6", "Tr"]], "Payshanba": [["1", "R"], ["2", "M/Ct"], ["3", "T"], ["4", "F"], ["5", "Ct/M"], ["6", "On"]], "Juma": [["1", "S"], ["2", "Ad"], ["3", "I/M"], ["4", "M/Ct"], ["5", "S"], ["6", "Ar"]] },
-                "7-A": { "Dushanba": [["2", "G"], ["3", "O"], ["4", "Ge"], ["5", "Ad"], ["6", "J"], ["7", "Ar"]], "Seshanba": [["1", "F"], ["2", "A"], ["3", "B"], ["4", "Ct"], ["5", "I"], ["6", "On"], ["7", "Ar"]], "Chorshanba": [["1", "Ct"], ["2", "Ge"], ["3", "I"], ["4", "R"], ["5", "A"], ["6", "Ct"], ["7", "K"]], "Payshanba": [["1", "B"], ["2", "Ge"], ["3", "Ct"], ["4", "F"], ["5", "A"], ["6", "Ad"], ["7", "K"]], "Juma": [["1", "On"], ["2", "F"], ["3", "T"], ["4", "J"], ["5", "O"], ["6", "Jh"], ["7", "R"]] },
-                "7-B": { "Dushanba": [["2", "T"], ["3", "Ad"], ["4", "O"], ["5", "Ct"], ["6", "Ar"], ["7", "F"]], "Seshanba": [["1", "A"], ["2", "I"], ["3", "R"], ["4", "F"], ["5", "Ct"], ["6", "Ge"], ["7", "A"]], "Chorshanba": [["1", "K"], ["2", "Ct"], ["3", "A"], ["4", "F"], ["5", "I"], ["6", "R"], ["7", "Ar"]], "Payshanba": [["1", "Ct"], ["2", "Ge"], ["3", "B"], ["4", "On"], ["5", "Ad"], ["6", "K"], ["7", "Ge"]], "Juma": [["1", "Jh"], ["2", "G"], ["3", "O"], ["4", "J"], ["5", "On"], ["6", "B"], ["7", "On"]] },
-                "7-V": { "Dushanba": [["2", "A"], ["3", "K"], ["4", "Ad"], ["5", "O"], ["6", "Ct"]], "Seshanba": [["1", "On"], ["2", "B"], ["3", "J"], ["4", "J"], ["5", "Ge"], ["6", "B"], ["7", "F"]], "Chorshanba": [["1", "R"], ["2", "Ct"], ["3", "K"], ["4", "A"], ["5", "A"], ["6", "F"], ["7", "G"]], "Payshanba": [["1", "K"], ["2", "Ad"], ["3", "Jh"], ["4", "T"], ["5", "K"], ["6", "B"], ["7", "Ge"]], "Juma": [["1", "B"], ["2", "R"], ["3", "Ct"], ["4", "O"], ["5", "On"], ["6", "G"], ["7", "I"]] },
-                "8-A": { "Dushanba": [["2", "Ge"], ["3", "R"], ["4", "Jh"], ["5", "I"], ["6", "A"], ["7", "Ct"]], "Seshanba": [["1", "J"], ["2", "F"], ["3", "Ct"], ["4", "O"], ["5", "A"], ["6", "I"]], "Chorshanba": [["1", "Ge"], ["2", "T"], ["3", "Ct"], ["4", "B"], ["5", "K"], ["6", "F"], ["7", "Ad"]], "Payshanba": [["1", "Ad"], ["2", "F"], ["3", "G"], ["4", "A"], ["5", "Ct"], ["6", "On"], ["7", "R"]], "Juma": [["1", "K"], ["2", "A"], ["3", "Ge"], ["4", "O"], ["5", "B"], ["6", "G"], ["7", "On"]] },
-                "8-B": { "Dushanba": [["2", "I"], ["3", "Ge"], ["4", "J"], ["5", "A"], ["6", "Ad"], ["7", "R"]], "Seshanba": [["1", "Jh"], ["2", "O"], ["3", "A"], ["4", "T"], ["5", "Ct"], ["6", "F"], ["7", "G"]], "Chorshanba": [["1", "F"], ["2", "O"], ["3", "G"], ["4", "I"], ["5", "Ct"], ["6", "Ge"], ["7", "K"]], "Payshanba": [["1", "A"], ["2", "Ad"], ["3", "On"], ["4", "Ct"], ["5", "R"], ["6", "F"]], "Juma": [["1", "On"], ["2", "B"], ["3", "B"], ["4", "Ct"], ["5", "A"], ["6", "Ge"], ["7", "On"], ["8", "K"]] },
-                "8-V": { "Dushanba": [["2", "J"], ["3", "B"], ["4", "K"], ["5", "O"], ["6", "R"], ["7", "I"]], "Seshanba": [["1", "F"], ["2", "Ge"], ["3", "O"], ["4", "Ct"], ["5", "B"], ["6", "T"], ["7", "K"]], "Chorshanba": [["1", "Ct"], ["2", "B"], ["3", "B"], ["4", "K"], ["5", "Jh"], ["6", "A"]], "Payshanba": [["1", "G"], ["2", "F"], ["3", "Ct"], ["4", "R"], ["5", "Ad"], ["6", "A"], ["7", "On"]], "Juma": [["1", "G"], ["2", "On"], ["3", "K"], ["4", "Ge"], ["5", "Ct"], ["6", "Ad"], ["7", "A"]] },
-                "9-A": { "Dushanba": [["2", "K"], ["3", "A"], ["4", "A"], ["5", "Ct"], ["6", "B"], ["7", "Ad"]], "Seshanba": [["1", "R"], ["2", "O"], ["3", "Ge"], ["4", "A"], ["5", "Jh"], ["6", "J"]], "Chorshanba": [["1", "I"], ["2", "G"], ["3", "A"], ["4", "T"], ["5", "On"], ["6", "Ct"], ["7", "F"]], "Payshanba": [["1", "Jh"], ["2", "R"], ["3", "F"], ["4", "F"], ["5", "On"], ["6", "K"], ["7", "Ar"]], "Juma": [["1", "R"], ["2", "Ad"], ["3", "F"], ["4", "O"], ["5", "Ct"], ["6", "B"], ["7", "A"]] },
-                "9-B": { "Dushanba": [["2", "K"], ["3", "A"], ["4", "A"], ["5", "F"], ["6", "B"], ["7", "Ge"]], "Seshanba": [["1", "Ct"], ["2", "J"], ["3", "Ad"], ["4", "A"], ["5", "R"], ["6", "O"], ["7", "Jh"]], "Chorshanba": [["1", "On"], ["2", "I"], ["3", "Ge"], ["4", "G"], ["5", "G"], ["6", "T"], ["7", "Ct"]], "Payshanba": [["1", "B"], ["2", "A"], ["3", "On"], ["4", "F"], ["5", "I"], ["6", "G"], ["7", "K"]], "Juma": [["1", "F"], ["2", "F"], ["3", "R"], ["4", "Ge"], ["5", "O"], ["6", "Ad"], ["7", "G"]] },
-                "9-V": { "Dushanba": [["2", "Ct"], ["3", "Ct"], ["4", "T"], ["5", "B"], ["6", "K"], ["7", "J"]], "Seshanba": [["1", "A"], ["2", "R"], ["3", "K"], ["4", "B"], ["5", "K"], ["6", "R"], ["7", "Ct"]], "Chorshanba": [["1", "A"], ["2", "Ge"], ["3", "On"], ["4", "G"], ["5", "Ad"], ["6", "A"], ["7", "B"]], "Payshanba": [["1", "I"], ["2", "B"], ["3", "F"], ["4", "K"], ["5", "G"], ["6", "On"], ["7", "Ad"]], "Juma": [["1", "Ge"], ["2", "A"], ["3", "On"], ["4", "Ad"], ["5", "F"], ["6", "Ct"], ["7", "R"]] },
-                "10-A": { "Dushanba": [["2", "A"], ["3", "Ct"], ["4", "R"], ["5", "Ge"], ["6", "F"], ["7", "Ad"]], "Seshanba": [["1", "Ge"], ["2", "Ct"], ["3", "J"], ["4", "F"], ["5", "F"], ["6", "Ge"], ["7", "Ad"]], "Chorshanba": [["1", "O"], ["2", "F"], ["3", "Q"], ["4", "I"], ["5", "A"], ["6", "Ad"], ["7", "A"]], "Payshanba": [["1", "Q"], ["2", "A"], ["3", "F"], ["4", "O"], ["5", "Jh"], ["6", "Ct"]], "Juma": [["1", "F"], ["2", "I"], ["3", "On"], ["4", "T"], ["5", "A"], ["6", "Ct"], ["7", "Ge"]] },
-                "10-B": { "Dushanba": [["2", "Ct"], ["3", "Ct"], ["4", "F"], ["5", "R"], ["6", "A/Ge"], ["7", "Ct"]], "Seshanba": [["1", "B"], ["2", "Ad"], ["3", "Q"], ["4", "R"], ["5", "F"], ["6", "J"], ["7", "A/Ge"], ["8", "Q"]], "Chorshanba": [["1", "Ct"], ["2", "O"], ["3", "Ct"], ["4", "On"], ["5", "F"], ["6", "I"], ["7", "Ge"]], "Payshanba": [["1", "F"], ["2", "Q"], ["3", "K"], ["4", "Ge"], ["5", "Ct"], ["6", "A"], ["7", "Jh"]], "Juma": [["1", "On"], ["2", "T"], ["3", "I"], ["4", "F"], ["5", "A/Ge"], ["6", "Ge"], ["7", "R"]] },
-                "10-V": { "Dushanba": [["2", "B"], ["3", "J"], ["4", "R"], ["5", "K"], ["6", "A"], ["7", "Ct"]], "Seshanba": [["1", "J"], ["2", "K"], ["3", "I"], ["4", "K"], ["5", "Ad"], ["6", "A"], ["7", "Ct"]], "Chorshanba": [["1", "B"], ["2", "Q"], ["3", "O"], ["4", "Ct"], ["5", "R"], ["6", "On"], ["7", "Ge"], ["8", "Q"]], "Payshanba": [["1", "O"], ["2", "Ad"], ["3", "K"], ["4", "Ad"], ["5", "B"], ["6", "A"]], "Juma": [["1", "T"], ["2", "K"], ["3", "On"], ["4", "O"], ["5", "R"], ["6", "I"], ["7", "Ge"]] },
-                "11-A": { "Dushanba": [["2", "Q"], ["3", "J"], ["4", "Jh"], ["5", "Ge"], ["6", "A"]], "Seshanba": [["1", "I"], ["2", "T"], ["3", "Ct"], ["4", "I"], ["5", "F"], ["6", "Ad"], ["7", "R"]], "Chorshanba": [["1", "O"], ["2", "On"], ["3", "F"], ["4", "A"], ["5", "Ct"], ["6", "Q"], ["7", "R"]], "Payshanba": [["1", "F"], ["2", "A"], ["3", "Ge"], ["4", "O"], ["5", "F"], ["6", "O"], ["7", "T"]], "Juma": [["1", "F"], ["2", "I"], ["3", "On"], ["4", "F"], ["5", "A/Ge"], ["6", "Ge"], ["7", "R"]] },
-                "11-B": { "Dushanba": [["2", "F"], ["3", "O"], ["4", "On"], ["5", "F"], ["6", "Jh"]], "Seshanba": [["1", "Ct"], ["2", "Q"], ["3", "F"], ["4", "F"], ["5", "A/Ge"], ["6", "Ge"], ["7", "Ct"]], "Chorshanba": [["1", "A/Ge"], ["2", "Ad"], ["3", "Ge"], ["4", "J"], ["5", "Q"], ["6", "Ct"], ["7", "R"]], "Payshanba": [["1", "Ct"], ["2", "R"], ["3", "Ge"], ["4", "A"], ["5", "F"], ["6", "O"]], "Juma": [["1", "I"], ["2", "Ct"], ["3", "On"], ["4", "F"], ["5", "O"], ["6", "F"], ["7", "B"]] },
-                "11-V": { "Dushanba": [["2", "O"], ["3", "J"], ["4", "B"], ["5", "Jh"], ["6", "Ad"], ["7", "K"], ["8", "Q"]], "Seshanba": [["1", "On"], ["2", "On"], ["3", "O"], ["4", "Ge"], ["5", "O"], ["6", "K"], ["7", "I"]], "Chorshanba": [["1", "Q"], ["2", "K"], ["3", "R"], ["4", "A"], ["5", "B"], ["6", "B"], ["7", "Ct"]], "Payshanba": [["1", "T"], ["2", "K"], ["3", "Ct"], ["4", "Ge"], ["5", "A"], ["6", "R"], ["7", "B"]], "Juma": [["1", "Ct"], ["2", "Ad"], ["3", "A"], ["4", "R"], ["5", "I"], ["6", "K"], ["7", "B"], ["8", "B"]] }
-            },
-            init() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const cls = urlParams.get('c');
-                const day = urlParams.get('d');
-                if (!cls || !day) { window.location.href = 'index.html'; return; }
+            timetableData: {},
+            subjects: {},
 
-                document.getElementById('display-class').innerText = cls;
-                document.getElementById('display-day').innerText = day;
-                this.render(cls, day);
+            async loadAndInit() {
+                // 1. Try fetching from API (Real Server)
+                try {
+                    const response = await fetch('api.php/api/timetable');
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data && Object.keys(data).length > 0) {
+                            this.timetableData = data;
+                            console.log('Jadval API orqali yuklandi');
+                        }
+                    }
+                } catch (e) {
+                    console.log('API mavjud emas, lokal ma\'lumotlar tekshirilmoqda...');
+                }
+
+                // 2. Fallback to localStorage/JS file (Local Mode)
+                if (typeof TimetableData !== 'undefined') {
+                    TimetableData.load(); // Force load from localStorage
+                    this.subjects = TimetableData.subjects;
+                    // Only overwrite if API failed
+                    if (!this.timetableData || Object.keys(this.timetableData).length === 0) {
+                        this.timetableData = TimetableData.timetableData;
+                    }
+                }
+
                 this.setupTheme();
+                this.render();
             },
-            render(cls, day) {
-                const container = document.getElementById('day-timetable-body');
-                const lessons = (this.timetableData[cls] && this.timetableData[cls][day]) || [];
-                if (lessons.length === 0) {
-                    container.innerHTML = '<tr><td colspan="2" class="text-center py-5">Ma\'lumotlar topilmadi.</td></tr>';
+
+            render() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const className = urlParams.get('c');
+                const day = urlParams.get('d');
+
+                if (!className || !day) {
+                    document.getElementById('class-title').innerText = "Xatolik: Sinf yoki kun tanlanmagan";
                     return;
                 }
-                container.innerHTML = lessons.map(l => `
-                    <tr>
-                        <td>${l[0]}</td>
-                        <td><div class="subject-name">${this.subjects[l[1]] || l[1]}</div></td>
-                    </tr>
-                `).join('');
+
+                document.getElementById('class-title').innerText = `${className} sinfi - ${day}`;
+
+                const classData = this.timetableData[className];
+                const dayLessons = classData ? classData[day] : null;
+
+                const container = document.getElementById('timetable-container');
+
+                if (!dayLessons || dayLessons.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-12">
+                            <div class="glass-card p-5 text-center">
+                                <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Bu kun uchun dars jadvali hali kiritilmagan.</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Render lessons
+                container.innerHTML = dayLessons.map(lesson => {
+                    const period = lesson[0];
+                    const subjectCode = lesson[1];
+                    const subjectName = this.subjects[subjectCode] || subjectCode || "Dars yo'q";
+
+                    if (!subjectCode || subjectCode === "-") return ''; // Skip empty
+
+                    return `
+                        <div class="col-12">
+                            <div class="glass-card p-3 d-flex align-items-center">
+                                <div class="period-badge me-3">
+                                    <span class="fw-bold">${period}</span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-0 fw-bold">${subjectName}</h5>
+                                    <p class="small text-muted mb-0">${period}-dars</p>
+                                </div>
+                                <div class="text-primary">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
             },
+
             setupTheme() {
                 const btn = document.getElementById('theme-toggle');
+                if (!btn) return;
+
                 const applyTheme = (isLight) => {
                     document.body.classList.toggle('light-mode', isLight);
                     btn.querySelector('i').className = isLight ? 'fas fa-moon' : 'fas fa-sun';
+                    localStorage.setItem('theme', isLight ? 'light' : 'dark');
                 };
+
                 btn.onclick = () => {
                     const isNowLight = !document.body.classList.contains('light-mode');
                     applyTheme(isNowLight);
-                    localStorage.setItem('theme', isNowLight ? 'light' : 'dark');
                 };
-                applyTheme(localStorage.getItem('theme') === 'light');
+
+                const saved = localStorage.getItem('theme');
+                if (saved === 'light') {
+                    applyTheme(true);
+                }
             }
         };
-        document.addEventListener('DOMContentLoaded', () => app.init());
+
+        // Initialize
+        window.addEventListener('load', () => app.loadAndInit());
+
+        // Real-time synchronization
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'timetableData') {
+                location.reload();
+            }
+        });
     </script>
 </body>
 

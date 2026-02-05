@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Dars Jadvali</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <style>
+        .admin-mode-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .edit-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .lesson-card {
+            position: relative;
+        }
+
+        .lesson-card:hover .edit-icon {
+            display: flex;
+        }
+
+        .edit-icon:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+            z-index: 9999;
+        }
+
+        .save-indicator.show {
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .unsaved-changes {
+            background: #ffc107;
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <div class="background-effects">
+        <div class="blob"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Admin Mode Indicator -->
+    <div class="admin-mode-indicator">
+        <i class="fas fa-user-shield me-2"></i>
+        <span>Admin Rejim</span>
+        <button class="btn btn-sm btn-light ms-2" onclick="logout()" style="padding: 2px 8px;">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
+
+    <!-- Save Indicator -->
+    <div class="save-indicator" id="saveIndicator">
+        <i class="fas fa-check-circle"></i>
+        <span>O'zgarishlar saqlandi</span>
+    </div>
+
+    <header class="header">
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <img src="../favicon.png" alt="Logo">
+                Boysun <span>IM</span>
+            </a>
+            <div class="header-actions">
+                <a href="index.html" class="theme-toggle" title="Bosh sahifa" style="text-decoration: none;">
+                    <i class="fas fa-home"></i>
+                </a>
+                <button class="theme-toggle" onclick="saveAllChanges()" title="Saqlash">
+                    <i class="fas fa-save"></i>
+                </button>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Mavzu">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Navigation Tabs -->
+            <section id="selection-view" class="content-section">
+                <div class="hero-text text-center mb-5">
+                    <h1>Dars Jadvali - Admin Panel</h1>
+                    <p class="text-muted">Tahrirlash uchun darsga bosing</p>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-12">
+                        <h2 class="h4 mb-4">Menyu</h2>
+                        <div class="row g-3">
+                            <div class="col-6 col-md-4">
+                                <a href="#" onclick="showSection('teachers'); return false;"
+                                    class="glass-card text-decoration-none d-flex flex-column align-items-center justify-content-center p-4 h-100"
+                                    style="gap: 10px;">
+                                    <i class="fas fa-chalkboard-teacher fa-2x text-primary"></i>
+                                    <span class="fw-bold text-main">Ustozlar</span>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <a href="#" onclick="showSection('classes'); return false;"
+                                    class="glass-card text-decoration-none d-flex flex-column align-items-center justify-content-center p-4 h-100"
+                                    style="gap: 10px; border-color: var(--primary);">
+                                    <i class="fas fa-calendar-alt fa-2x text-primary"></i>
+                                    <span class="fw-bold text-main">Sinflar</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Classes Section -->
+            <section id="classes-section" class="content-section d-none">
+                <div class="text-center mb-4">
+                    <button class="btn btn-outline-primary" onclick="showSection('menu')">
+                        <i class="fas fa-arrow-left me-2"></i>Orqaga
+                    </button>
+                </div>
+
+                <div id="class-selector" class="mb-4">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+
+                <div id="timetable-view">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Teachers Section -->
+            <section id="teachers-section" class="content-section d-none">
+                <div class="text-center mb-4">
+                    <button class="btn btn-outline-primary" onclick="showSection('menu')">
+                        <i class="fas fa-arrow-left me-2"></i>Orqaga
+                    </button>
+                </div>
+
+                <div id="teacher-selector" class="mb-4">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+
+                <div id="teacher-timetable-view">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content glass-card">
+                <div class="modal-header">
+                    <h5 class="modal-title">Darsni tahrirlash</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Sinf</label>
+                        <input type="text" class="form-control" id="editClass" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kun</label>
+                        <input type="text" class="form-control" id="editDay" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Dars soati</label>
+                        <input type="text" class="form-control" id="editPeriod" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fan</label>
+                        <select class="form-select" id="editSubject">
+                            <option value="">Bo'sh</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteLesson()">O'chirish</button>
+                    <button type="button" class="btn btn-primary" onclick="saveLesson()">Saqlash</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="timetable-data.js"></script>
+    <script src="api-client.js"></script>
+    <script>
+        // Use shared data
+        const app = {
+            subjects: TimetableData.subjects,
+            timetableData: TimetableData.timetableData,
+            teacherData: [] // Store teacher data here
+        };
+    </script>
+    <script>
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function () {
+            const session = localStorage.getItem('adminSession') || sessionStorage.getItem('adminSession');
+            if (!session) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            initializeAdminPanel();
+        });
+
+        let editModal = null;
+        let currentEditData = null;
+        let hasUnsavedChanges = false;
+        let autoSaveInterval = null;
+
+        function initializeAdminPanel() {
+            editModal = new bootstrap.Modal(document.getElementById('editModal'));
+
+            // Populate subject options
+            populateSubjectOptions();
+
+            // Load data from server or local
+            loadTimetableData();
+
+            // Setup auto-save (every 30 seconds if there are changes)
+            autoSaveInterval = setInterval(() => {
+                if (hasUnsavedChanges) {
+                    saveAllChanges(true); // Auto-save silently
+                }
+            }, 30000);
+        }
+
+        function populateSubjectOptions() {
+            const select = document.getElementById('editSubject');
+            const subjects = {
+                "M": "Matematika", "F": "Fizika", "K": "Kimyo", "B": "Biologiya",
+                "I": "Informatika", "Ct": "Chet tili", "R": "Rus tili", "On": "Ona tili",
+                "Ad": "Adabiyot", "T": "Tarbiya", "J": "Jismoniy tarbiya", "G": "Geografiya",
+                "Tr": "Tarix", "O": "O'zbekiston tarixi", "Jh": "Jahon tarixi",
+                "A": "Algebra", "Ge": "Geometriya", "S": "Science", "Ar": "Tasviriy san'at",
+                "Q": "ChQBT", "C": "Chizmachilik"
+            };
+
+            for (const [code, name] of Object.entries(subjects)) {
+                const option = document.createElement('option');
+                option.value = code;
+                option.textContent = name;
+                select.appendChild(option);
+            }
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.add('d-none'));
+
+            if (section === 'menu') {
+                document.getElementById('selection-view').classList.remove('d-none');
+            } else if (section === 'classes') {
+                document.getElementById('classes-section').classList.remove('d-none');
+                renderClassSelector();
+            } else if (section === 'teachers') {
+                document.getElementById('teachers-section').classList.remove('d-none');
+                renderTeacherSelector();
+            }
+        }
+
+        function renderClassSelector() {
+            const classes = ['5-A', '5-B', '6-A', '7-A', '7-B', '7-V', '8-A', '8-B', '8-V',
+                '9-A', '9-B', '9-V', '10-A', '10-B', '10-V', '11-A', '11-B', '11-V'];
+
+            let html = '<div class="glass-card p-4"><h5 class="mb-3">Sinf tanlang</h5><div class="row g-2">';
+
+            classes.forEach(cls => {
+                html += `
+                    <div class="col-6 col-md-3">
+                        <button class="btn btn-outline-primary w-100" onclick="showClassTimetable('${cls}')">
+                            ${cls}
+                        </button>
+                    </div>
+                `;
+            });
+
+            html += '</div></div>';
+            document.getElementById('class-selector').innerHTML = html;
+        }
+
+        function showClassTimetable(className) {
+            const data = app.timetableData[className];
+            if (!data) return;
+
+            const days = ['Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma'];
+
+            let html = `<div class="glass-card p-4">
+                <h5 class="mb-4">${className} - Dars Jadvali</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Dars</th>`;
+
+            days.forEach(day => {
+                html += `<th>${day}</th>`;
+            });
+
+            html += '</tr></thead><tbody>';
+
+            for (let period = 1; period <= 8; period++) {
+                html += `<tr><td><strong>${period}</strong></td>`;
+
+                days.forEach(day => {
+                    const lessons = data[day] || [];
+                    const lesson = lessons.find(l => l[0] === period.toString());
+                    const subjectCode = lesson ? lesson[1] : '';
+                    const subjectName = subjectCode ? (app.subjects[subjectCode] || subjectCode) : '-';
+
+                    html += `
+                        <td class="lesson-card" style="position: relative; min-height: 50px;">
+                            <div>${subjectName}</div>
+                            <div class="edit-icon" onclick="editLesson('${className}', '${day}', ${period}, '${subjectCode}')">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </td>
+                    `;
+                });
+
+                html += '</tr>';
+            }
+
+            html += '</tbody></table></div></div>';
+
+            document.getElementById('timetable-view').innerHTML = html;
+        }
+
+        function renderTeacherSelector() {
+            // Check if data is loaded
+            if (!app.teacherData || app.teacherData.length === 0) {
+                // Try to load from window.teacherData (local file) if app.teacherData is empty
+                if (typeof window.teacherData !== 'undefined' && window.teacherData.length > 0) {
+                    app.teacherData = window.teacherData;
+                } else {
+                    document.getElementById('teacher-selector').innerHTML =
+                        '<div class="alert alert-warning">O\'qituvchilar ma\'lumoti yuklanmagan</div>';
+                    return;
+                }
+            }
+
+            let html = '<div class="glass-card p-4"><h5 class="mb-3">O\'qituvchi tanlang</h5><div class="row g-2">';
+
+            app.teacherData.forEach((teacher, index) => {
+                html += `
+                    <div class="col-6 col-md-4">
+                        <button class="btn btn-outline-primary w-100" onclick="showTeacherTimetable(${index})">
+                            ${teacher.name}
+                        </button>
+                    </div>
+                `;
+            });
+
+            html += '</div></div>';
+            document.getElementById('teacher-selector').innerHTML = html;
+        }
+
+        async function loadTeacherData() {
+            // 1. Try API
+            try {
+                const response = await fetch('api.php/api/teachers');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.length > 0) {
+                        app.teacherData = data;
+                        console.log('O\'qituvchilar (API)');
+                        renderTeacherSelector();
+                        return;
+                    }
+                }
+            } catch (e) { console.log('API fail'); }
+
+            // 2. Try LocalStorage (for local persistency)
+            const localStored = localStorage.getItem('teacherData');
+            if (localStored) {
+                try {
+                    app.teacherData = JSON.parse(localStored);
+                    console.log('O\'qituvchilar (LocalStorage)');
+                    renderTeacherSelector();
+                    return;
+                } catch (e) { console.error('LocalStorage parse error', e); }
+            }
+
+            // 3. Local fallback (from teacher_data.js script)
+            // Check simply 'teacherData' because const might not be on window
+            try {
+                if (typeof teacherData !== 'undefined' && teacherData.length > 0) {
+                    app.teacherData = JSON.parse(JSON.stringify(teacherData)); // Deep copy to avoid modifying original const reference
+                    console.log('O\'qituvchilar (Local File)');
+                    renderTeacherSelector();
+                }
+            } catch (e) { console.log('TeacherData script not loaded'); }
+        }
+
+        // Call explicit loader
+        loadTeacherData().then(() => {
+            console.log('Teacher data initialized');
+        });
+
+        function showTeacherTimetable(index) {
+            const teacher = app.teacherData[index];
+            const days = ['Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma'];
+
+            let html = `<div class="glass-card p-4">
+                <h5 class="mb-4">${teacher.name} - ${teacher.subject}</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Dars</th>`;
+
+            days.forEach(day => {
+                html += `<th>${day}</th>`;
+            });
+
+            html += '</tr></thead><tbody>';
+
+            for (let period = 0; period < 8; period++) {
+                html += `<tr><td><strong>${period + 1}</strong></td>`;
+
+                days.forEach(day => {
+                    const schedule = teacher.schedule[day] || [];
+                    const lesson = schedule[period] || '';
+
+                    html += `
+                        <td class="lesson-card" style="position: relative; min-height: 50px;">
+                            <div>${lesson}</div>
+                            <div class="edit-icon" onclick="editTeacherLesson(${index}, '${day}', ${period}, '${lesson.replace(/'/g, "\\'")}')">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </td>
+                    `;
+                });
+
+                html += '</tr>';
+            }
+
+            html += '</tbody></table></div></div>';
+
+            document.getElementById('teacher-timetable-view').innerHTML = html;
+        }
+
+        function editTeacherLesson(teacherIndex, day, period, currentLesson) {
+            // Re-use modal or create new mode? 
+            // Let's use generic variables and adapt save function
+            currentEditData = {
+                type: 'teacher',
+                teacherIndex,
+                day,
+                period,
+                currentLesson
+            };
+
+            document.getElementById('editClass').value = app.teacherData[teacherIndex].name;
+            document.getElementById('editDay').value = day;
+            document.getElementById('editPeriod').value = (period + 1) + '-dars';
+
+            // For teachers, we need free text input, not just subjects dropdown
+            // But to keep UI simple, let's use the same modal but maybe transform select to input?
+            // Or just allow selecting "Sinf" (10-A, 5-B etc)?
+            // Usually teachers schedule shows WHICH CLASS they teach.
+            // So let's replace the select with an input for now, or populate select with Classes?
+
+            // Better: Hide subject select, show Input field for Class Name
+            let subjectSelect = document.getElementById('editSubject');
+            let inputContainer = document.getElementById('custom-input-container');
+
+            if (!inputContainer) {
+                inputContainer = document.createElement('div');
+                inputContainer.id = 'custom-input-container';
+                inputContainer.className = 'mb-3';
+                // Add datalist for classes
+                const classesList = ['5-A', '5-B', '6-A', '7-A', '7-B', '7-V', '8-A', '8-B', '8-V', '9-A', '9-B', '9-V', '10-A', '10-B', '10-V', '11-A', '11-B', '11-V'];
+                const options = classesList.map(c => `<option value="${c}">`).join('');
+
+                inputContainer.innerHTML = `
+                    <label class="form-label">Sinf (yoki dars)</label>
+                    <input type="text" class="form-control" id="editCustomInput" list="classes-list">
+                    <datalist id="classes-list">
+                        ${options}
+                    </datalist>
+                `;
+                subjectSelect.parentElement.after(inputContainer);
+            }
+
+            subjectSelect.parentElement.classList.add('d-none');
+            inputContainer.classList.remove('d-none');
+            document.getElementById('editCustomInput').value = currentLesson;
+
+            editModal.show();
+        }
+
+        function editLesson(className, day, period, currentSubject) {
+            currentEditData = { type: 'class', className, day, period, currentSubject };
+
+            document.getElementById('editClass').value = className;
+            document.getElementById('editDay').value = day;
+            document.getElementById('editPeriod').value = period + '-dars';
+
+            // Show subject select, hide custom input
+            let subjectSelect = document.getElementById('editSubject');
+            let inputContainer = document.getElementById('custom-input-container');
+
+            subjectSelect.parentElement.classList.remove('d-none');
+            if (inputContainer) inputContainer.classList.add('d-none');
+
+            document.getElementById('editSubject').value = currentSubject;
+
+            editModal.show();
+        }
+
+        function saveLesson() {
+            if (!currentEditData) return;
+
+            if (currentEditData.type === 'teacher') {
+                const newValue = document.getElementById('editCustomInput').value;
+                const { teacherIndex, day, period } = currentEditData;
+
+                if (!app.teacherData[teacherIndex].schedule[day]) {
+                    app.teacherData[teacherIndex].schedule[day] = [];
+                }
+
+                // Ensure array is long enough
+                while (app.teacherData[teacherIndex].schedule[day].length <= period) {
+                    app.teacherData[teacherIndex].schedule[day].push('');
+                }
+
+                app.teacherData[teacherIndex].schedule[day][period] = newValue;
+
+                hasUnsavedChanges = true;
+                editModal.hide();
+                showTeacherTimetable(teacherIndex);
+            } else {
+                const newSubject = document.getElementById('editSubject').value;
+                const { className, day, period } = currentEditData;
+
+                // Update timetable data
+                if (!app.timetableData[className][day]) {
+                    app.timetableData[className][day] = [];
+                }
+
+                // Remove old entry
+                app.timetableData[className][day] = app.timetableData[className][day]
+                    .filter(l => l[0] !== period.toString());
+
+                // Add new entry if not empty
+                if (newSubject) {
+                    app.timetableData[className][day].push([period.toString(), newSubject]);
+                    app.timetableData[className][day].sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+                }
+
+                hasUnsavedChanges = true;
+                editModal.hide();
+                showClassTimetable(className);
+            }
+        }
+
+        function deleteLesson() {
+            if (!currentEditData) return;
+
+            if (currentEditData.type === 'teacher') {
+                const { teacherIndex, day, period } = currentEditData;
+                if (app.teacherData[teacherIndex].schedule[day] && app.teacherData[teacherIndex].schedule[day][period]) {
+                    app.teacherData[teacherIndex].schedule[day][period] = '';
+                }
+                hasUnsavedChanges = true;
+                editModal.hide();
+                showTeacherTimetable(teacherIndex);
+            } else {
+                const { className, day, period } = currentEditData;
+
+                if (app.timetableData[className]?.[day]) {
+                    app.timetableData[className][day] = app.timetableData[className][day]
+                        .filter(l => l[0] !== period.toString());
+                }
+
+                hasUnsavedChanges = true;
+                editModal.hide();
+                showClassTimetable(className);
+            }
+        }
+
+        async function saveAllChanges(silent = false) {
+            try {
+                // 1. ALWAYS update Local Storage first (for local real-time updates)
+                TimetableData.timetableData = app.timetableData;
+                TimetableData.save();
+                localStorage.setItem('teacherData', JSON.stringify(app.teacherData));
+
+                // 2. Sync with Backend
+                const useBackend = await checkBackendAvailable();
+
+                if (useBackend) {
+                    // Save Class Timetable
+                    await apiClient.updateTimetable(app.timetableData);
+
+                    // Save Teacher Data
+                    if (app.teacherData.length > 0) {
+                        await apiClient.updateTeachers(app.teacherData);
+                    }
+                } else if (!silent) {
+                    console.log('Lokal saqlandi (LocalStorage)');
+                }
+
+                hasUnsavedChanges = false;
+
+                if (!silent) {
+                    showSaveIndicator();
+                }
+            } catch (error) {
+                console.error('Save error:', error);
+                if (!silent) {
+                    alert('Xatolik yuz berdi! Qaytadan urinib ko\'ring.');
+                }
+            }
+        }
+
+        async function checkBackendAvailable() {
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/validate', {
+                    method: 'GET',
+                    headers: apiClient.getHeaders()
+                });
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function showSaveIndicator() {
+            const indicator = document.getElementById('saveIndicator');
+            indicator.classList.add('show');
+
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 3000);
+        }
+
+        async function loadTimetableData() {
+            try {
+                const useBackend = await checkBackendAvailable();
+
+                if (useBackend) {
+                    const data = await apiClient.getTimetable();
+                    app.timetableData = data;
+                }
+                // Otherwise use data from script.js
+            } catch (error) {
+                console.error('Load error:', error);
+            }
+        }
+
+        function logout() {
+            if (hasUnsavedChanges) {
+                if (!confirm('Saqlanmagan o\'zgarishlar bor. Chiqishni xohlaysizmi?')) {
+                    return;
+                }
+            }
+
+            localStorage.removeItem('adminSession');
+            sessionStorage.removeItem('adminSession');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Warn before leaving if there are unsaved changes
+        window.addEventListener('beforeunload', function (e) {
+            if (hasUnsavedChanges) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    </script>
+    <script src="teacher_data.js"></script>
+</body>
+
+</html>

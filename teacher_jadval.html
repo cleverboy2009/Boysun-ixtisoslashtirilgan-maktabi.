@@ -79,32 +79,43 @@
         <a href="#" class="ios-nav-item active"><i class="fas fa-user-tie"></i><span>Ustoz</span></a>
     </nav>
 
+    <script src="teacher_data.js"></script>
     <script>
         const app = {
-            teacherSchedules: {
-                "Pardayev Jafar": {
-                    "Dushanba": ["10-A", "9-A", "9-B", "9-A", "11-A", "11-A", "-"],
-                    "Seshanba": ["10-A", "-", "-", "-", "9-B", "7-V", "9-V"],
-                    "Chorshanba": ["9-V", "-", "-", "9-A", "10-A", "9-V", "11-A"],
-                    "Payshanba": ["-", "10-A", "11-A", "9-A", "-", "-", "7-V"],
-                    "Juma": ["-", "9-V", "11-A", "9-V", "-", "-", "-"]
-                },
-                "Faxriddinov Nodir": {
-                    "Dushanba": ["-", "-", "8-B", "7-A", "8-B", "10-V", "-"],
-                    "Seshanba": ["-", "7-A", "8-B", "11-B", "11-B", "10-V", "-"],
-                    "Chorshanba": ["-", "7-A", "11-B", "7-B", "7-A", "8-B", "-"],
-                    "Payshanba": ["8-B", "7-A", "-", "-", "8-B", "8-B", "-"],
-                    "Juma": ["-", "11-B", "-", "7-A", "8-B", "8-B", "-"]
-                },
-                "Choriyev Humoyiddin": {
-                    "Dushanba": ["-", "5-A", "6-A", "5-A", "5-A", "6-A", "-"],
-                    "Seshanba": ["-", "5-A", "6-A", "5-A", "5-A", "-", "6-A"],
-                    "Chorshanba": ["-", "6-A", "6-A", "6-A", "5-A", "5-A", "5-A"],
-                    "Payshanba": ["-", "5-A", "6-A", "5-A", "6-A", "5-A", "5-A"],
-                    "Juma": ["-", "5-A", "6-A", "6-A", "5-A", "5-A", "6-A"]
+            async init() {
+                // 1. Try to fetch data from API (Real Server)
+                let currentData = [];
+                try {
+                    const response = await fetch('api.php/api/teachers');
+                    if (response.ok) {
+                        const apiData = await response.json();
+                        if (apiData && apiData.length > 0) {
+                            currentData = apiData;
+                        }
+                    }
+                } catch (e) {
+                    console.log('API mavjud emas, lokal ma\'lumotlar tekshirilmoqda...');
                 }
-            },
-            init() {
+
+                // 2. Try LocalStorage (Admin panel o'zgarishlari uchun)
+                if (currentData.length === 0) {
+                    const localStored = localStorage.getItem('teacherData');
+                    if (localStored) {
+                        try {
+                            currentData = JSON.parse(localStored);
+                            console.log('O\'qituvchilar (LocalStorage)');
+                        } catch (e) { }
+                    }
+                }
+
+                // 3. Fallback to JS file data
+                if (currentData.length === 0 && typeof teacherData !== 'undefined') {
+                    currentData = teacherData;
+                    console.log('O\'qituvchilar (JS File)');
+                }
+
+                this.data = currentData; // Store in app instance
+
                 const urlParams = new URLSearchParams(window.location.search);
                 const name = urlParams.get('name');
                 if (!name) { window.location.href = 'index.html'; return; }
@@ -115,7 +126,15 @@
             },
             render(name) {
                 const container = document.getElementById('teacher-timetable-body');
-                const schedule = this.teacherSchedules[name];
+                const data = this.data; // Use fetched or local data
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<tr><td colspan="8" class="text-center py-5 text-danger">Xatolik: Ma\'lumotlar yuklanmadi.</td></tr>';
+                    return;
+                }
+
+                const teacher = data.find(t => t.name === name);
+                const schedule = teacher ? teacher.schedule : null;
 
                 if (!schedule) {
                     container.innerHTML = '<tr><td colspan="8" class="text-center py-5">Ushbu ustoz jadvali hali kiritilmagan.</td></tr>';
@@ -124,11 +143,23 @@
 
                 const days = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma"];
                 container.innerHTML = days.map(day => {
-                    const lessons = schedule[day] || ["-", "-", "-", "-", "-", "-", "-"];
+                    const lessons = schedule[day] || ["", "", "", "", "", "", ""];
+                    // Render 7 columns as standard, or dynamic?
+                    // Image had ~8 columns.
+                    // teacher_data has variable length arrays (mostly 7-8).
+                    // We must map all available lessons in the array.
+                    // If schedule array has 8 items, we should ideally show 8 columns or truncate/wrap. 
+                    // However, header has 7 columns (1-7).
+                    // Let's stick to displaying whatever is in the array, but table header might cover only 7.
+                    // To be safe, we map valid lessons.
+
                     return `
                         <tr>
                             <td class="fw-bold text-primary">${day}</td>
-                            ${lessons.map(l => `<td class="text-center"><span class="${l === '-' ? 'text-muted opacity-25' : 'subject-name'}">${l}</span></td>`).join('')}
+                            ${lessons.map((l, i) => {
+                        // Only show up to 8?
+                        return `<td class="text-center"><span class="${(!l || l === '-') ? 'text-muted opacity-25' : 'subject-name'}">${l || '-'}</span></td>`;
+                    }).join('')}
                         </tr>
                     `;
                 }).join('');
@@ -142,9 +173,12 @@
                 btn.onclick = () => {
                     const isNowLight = !document.body.classList.contains('light-mode');
                     applyTheme(isNowLight);
-                    localStorage.setItem('theme', isNowLight ? 'light' : 'dark');
+                    localStorage.setItem('theme', isLight ? 'light' : 'dark');
                 };
-                applyTheme(localStorage.getItem('theme') === 'light');
+                const saved = localStorage.getItem('theme');
+                if (saved === 'light') {
+                    applyTheme(true);
+                }
             }
         };
         document.addEventListener('DOMContentLoaded', () => app.init());
