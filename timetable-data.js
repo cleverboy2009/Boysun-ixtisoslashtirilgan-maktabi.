@@ -140,22 +140,12 @@ const TimetableData = {
             "Payshanba": [["1", "T"], ["2", "K"], ["3", "Ct"], ["4", "Ge"], ["5", "A"], ["6", "R"], ["7", "B"], ["8", ""]],
             "Juma": [["1", "Ct"], ["2", "Ad"], ["3", "A"], ["4", "R"], ["5", "I"], ["6", "K"], ["7", "B"], ["8", "B"]]
         }
-    }, // Save,
+    }, // END_TIMETABLE_DATA
 
-
-    // Save to localStorage
-    save() {
-        localStorage.setItem('timetableData', JSON.stringify(this.timetableData));
-    },
-
-    // Load from localStorage
+    save() { localStorage.setItem('timetableData', JSON.stringify(this.timetableData)); },
     load() {
         const saved = localStorage.getItem('timetableData');
-        if (saved) {
-            this.timetableData = JSON.parse(saved);
-        }
+        if (saved) this.timetableData = JSON.parse(saved);
     }
 };
-
-// Load saved data on page load
 TimetableData.load();

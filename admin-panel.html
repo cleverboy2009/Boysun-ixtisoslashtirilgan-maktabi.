@@ -126,10 +126,6 @@
                 <button class="theme-toggle" onclick="saveAllChanges()" title="Saqlash">
                     <i class="fas fa-save"></i>
                 </button>
-                <button class="theme-toggle" onclick="downloadUpdatedFiles()"
-                    title="Vercel uchun fayllarni yuklab olish">
-                    <i class="fas fa-file-export"></i>
-                </button>
                 <button class="theme-toggle" id="theme-toggle" aria-label="Mavzu">
                     <i class="fas fa-sun"></i>
                 </button>
@@ -645,36 +641,27 @@
 
         async function saveAllChanges(silent = false) {
             try {
-                // 1. ALWAYS update Local Storage first (for local real-time updates)
+                // 1. Local storage quick sync
                 TimetableData.timetableData = app.timetableData;
                 TimetableData.save();
                 localStorage.setItem('teacherData', JSON.stringify(app.teacherData));
 
-                // 2. Sync with Backend
+                // 2. Direct server save (for real hosting)
                 const useBackend = await checkBackendAvailable();
-
                 if (useBackend) {
-                    // Save Class Timetable
-                    await apiClient.updateTimetable(app.timetableData);
-
-                    // Save Teacher Data
-                    if (app.teacherData.length > 0) {
-                        await apiClient.updateTeachers(app.teacherData);
+                    const res1 = await apiClient.updateTimetable(app.timetableData);
+                    const res2 = await apiClient.updateTeachers(app.teacherData);
+                    if (!silent && res1.success && res2.success) {
+                        alert('Ajoyib! Ma\'lumotlar serverga saqlandi. Endi hamma o\'quvchilar yangi jadvalni ko\'ra olishadi.');
                     }
-                } else if (!silent) {
-                    console.log('Lokal saqlandi (LocalStorage)');
                 }
 
                 hasUnsavedChanges = false;
+                if (!silent) showSaveIndicator();
 
-                if (!silent) {
-                    showSaveIndicator();
-                }
             } catch (error) {
                 console.error('Save error:', error);
-                if (!silent) {
-                    alert('Xatolik yuz berdi! Qaytadan urinib ko\'ring.');
-                }
+                if (!silent) alert('Serverga saqlashda xatolik! Xosting sozlamalarini tekshiring.');
             }
         }
 
@@ -714,19 +701,21 @@ TimetableData.load();`;
 
         async function checkBackendAvailable() {
             try {
-                const response = await fetch('http://localhost:8080/api/auth/validate', {
-                    method: 'GET',
-                    headers: apiClient.getHeaders()
-                });
+                const response = await fetch('api.php/api/auth/validate');
                 return response.ok;
             } catch (error) {
                 return false;
             }
         }
 
-        function showSaveIndicator() {
+        async function showSaveIndicator() {
             const indicator = document.getElementById('saveIndicator');
             indicator.classList.add('show');
+
+            const isBackend = await checkBackendAvailable();
+            if (!isBackend) {
+                alert('Eslatma: Ma\'lumotlar brauzerda saqlandi. Vercel\'ga yuklashdan oldin tepada "File Export" tugmasini bosing va darslarni loyihangizda yangilang!');
+            }
 
             setTimeout(() => {
                 indicator.classList.remove('show');
