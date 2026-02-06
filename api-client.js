@@ -3,7 +3,8 @@
  */
 const apiClient = {
     // We use relative path so it works on any PHP server (localhost or hosting)
-    baseUrl: 'api.php',
+    // Updated to point to Python Backend (app.py)
+    baseUrl: '',
     token: 'admin_token_boysun2026',
 
     getHeaders() {

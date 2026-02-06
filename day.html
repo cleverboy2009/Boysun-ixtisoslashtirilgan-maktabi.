@@ -84,7 +84,7 @@
             async loadAndInit() {
                 // 1. Try fetching from API (Real Server)
                 try {
-                    const response = await fetch('api.php/api/timetable?t=' + Date.now());
+                    const response = await fetch('/api/timetable?t=' + Date.now());
                     if (response.ok) {
                         const data = await response.json();
                         if (data && Object.keys(data).length > 0) {
